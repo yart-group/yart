@@ -61,7 +61,7 @@ void Robot::move(Direction direction, Motors::Speed speed) {
 
 void Robot::delay(Time seconds){
     long endTime = millis() + seconds * 1000;
-    while(millis() < endTime)_loop();
+    while(millis() < endTime) ; //_loop();
 }
 
 

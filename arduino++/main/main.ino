@@ -4,6 +4,14 @@
 
 #include <MeOrion.h>
 
+#include "/run/media/robert/C09C-28FD/GitHub/Goofy/arduino++/main/usb.ino"
+#include "/run/media/robert/C09C-28FD/GitHub/Goofy/arduino++/main/sensors.ino"
+#include "/run/media/robert/C09C-28FD/GitHub/Goofy/arduino++/main/pilot.ino"
+#include "/run/media/robert/C09C-28FD/GitHub/Goofy/arduino++/main/motors.ino"
+#include "/run/media/robert/C09C-28FD/GitHub/Goofy/arduino++/main/robot.ino"
+#include "/run/media/robert/C09C-28FD/GitHub/Goofy/arduino++/main/program.ino"
+#include "/run/media/robert/C09C-28FD/GitHub/Goofy/arduino++/main/program-0.ino"
+
 double angle_rad = PI/180.0;
 double angle_deg = 180.0/PI;
 

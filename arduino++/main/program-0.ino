@@ -2,9 +2,12 @@
 class Program_0 : public Program {
   public:
     Program_0();
-  
-    void assign(Robot * robot) { if(robot) program_0::robot = robot; }
-    void assign(Pilot * pilot) { if(pilot) program_0::pilot = pilot; }
+
+    virtual ExitCode init();
+    virtual ExitCode run();
+    
+    void assign(Robot * robot) { if(robot) Program_0::robot = robot; }
+    void assign(Pilot * pilot) { if(pilot) Program_0::pilot = pilot; }
 
   private:
     Robot * robot;
@@ -13,15 +16,15 @@ class Program_0 : public Program {
 };
 
 Program_0::Program_0() : 
-  robot(nullptr),
-  pilot(nullptr)
+  robot(0),
+  pilot(0)
 {}
 
-ExitCode Program_0::init() {
+Program_0::ExitCode Program_0::init() {
   return ok;
 }
 
-ExitCode Program_0::run() {
+Program_0::ExitCode Program_0::run() {
   if(!robot) return startup_error;
   if(!pilot) return startup_error;
 

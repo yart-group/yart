@@ -4,12 +4,13 @@
 
 class UltrasonicSensor {
   public:
+    UltrasonicSensor() : ultrasonic(ULTRASONIC_PORT) {}
     typedef double Value;
   
     Value read() { return ultrasonic.distanceCm(); }
   
   private:
-    MeUltrasonicSensor ultrasonic(ULTRASONIC_PORT);
+    MeUltrasonicSensor ultrasonic;
 };
 
 
@@ -20,6 +21,7 @@ class UltrasonicSensor {
 
 class IrSensor {
   public:
+    IrSensor() : ir(IR_PORT) {}
     typedef int Value;
 
     Value read() { return ir.getCode(); }
@@ -28,6 +30,6 @@ class IrSensor {
     void loop() { ir.loop();  }
     
   private:
-    MeInfraredReceiver ir(IR_PORT);
+    MeInfraredReceiver ir;
 };
 

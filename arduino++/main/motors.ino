@@ -5,6 +5,8 @@
 
 class Motors {
   public:
+    Motors() : motor_A(MOTOR_A_PORT), motor_B(MOTOR_B_PORT) {}
+    
     typedef int Speed;
     typedef int Distance;
 
@@ -16,8 +18,8 @@ class Motors {
     Speed getSpeed_right() { return CurrentSpeed_right; }
      
   private:
-    MeDCMotor motor_A(MOTOR_A_PORT);
-    MeDCMotor motor_B(MOTOR_B_PORT);
+    MeDCMotor motor_A;
+    MeDCMotor motor_B;
   
     Speed      CurrentSpeed_left;
     Speed      CurrentSpeed_right;
