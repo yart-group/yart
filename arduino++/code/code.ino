@@ -4,13 +4,13 @@
 
 #include <MeOrion.h>
 
-#include "/run/media/robert/C09C-28FD/GitHub/Goofy/arduino++/code/source/usb.ino"
-#include "/run/media/robert/C09C-28FD/GitHub/Goofy/arduino++/code/source/sensors.ino"
-#include "/run/media/robert/C09C-28FD/GitHub/Goofy/arduino++/code/source/pilot.ino"
-#include "/run/media/robert/C09C-28FD/GitHub/Goofy/arduino++/code/source/motors.ino"
-#include "/run/media/robert/C09C-28FD/GitHub/Goofy/arduino++/code/source/robot.ino"
-#include "/run/media/robert/C09C-28FD/GitHub/Goofy/arduino++/code/source/program.ino"
-#include "/run/media/robert/C09C-28FD/GitHub/Goofy/arduino++/code/source/program-0.ino"
+#include "/run/media/robert/C09C-28FD/GitHub/Goofy/arduino++/code/source/usb.cpp"
+#include "/run/media/robert/C09C-28FD/GitHub/Goofy/arduino++/code/source/sensors.cpp"
+#include "/run/media/robert/C09C-28FD/GitHub/Goofy/arduino++/code/source/pilot.cpp"
+#include "/run/media/robert/C09C-28FD/GitHub/Goofy/arduino++/code/source/motors.cpp"
+#include "/run/media/robert/C09C-28FD/GitHub/Goofy/arduino++/code/source/robot.cpp"
+#include "/run/media/robert/C09C-28FD/GitHub/Goofy/arduino++/code/source/program.cpp"
+#include "/run/media/robert/C09C-28FD/GitHub/Goofy/arduino++/code/source/program-0.cpp"
 
 double angle_rad = PI/180.0;
 double angle_deg = 180.0/PI;
