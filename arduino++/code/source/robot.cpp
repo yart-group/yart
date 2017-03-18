@@ -1,12 +1,14 @@
 class Robot {
   public:
+    Robot() : currentDirection(STOP) {}
+
     typedef float Time;
     enum Direction {
       LEFT,
       RIGHT,
       FORWARD,
       BACK,
-      STAND,
+      STOP,
       ARC_FL,
       ARC_FR,
       ARC_BL,
@@ -33,13 +35,11 @@ class Robot {
 
 void Robot::move(Direction direction, Motors::Speed speed) {
 
-  bool gate = false;
-
   if(direction == LEFT){
-    motors.setSpeed(-100, 100);
+    motors.setSpeed(-speed, speed);
   }
   else if(direction == RIGHT){
-    motors.setSpeed(100, -100);
+    motors.setSpeed(speed, -speed);
   }
   else if(direction == FORWARD){
     motors.setSpeed(speed);
@@ -48,29 +48,23 @@ void Robot::move(Direction direction, Motors::Speed speed) {
     motors.setSpeed(-speed);
   }
   else if(direction == ARC_FL){
-    motors.setSpeed(speed-25, speed+25);
+    motors.setSpeed(speed-(0.5 * speed), speed+(0.5 * speed));
   }
   else if(direction == ARC_FR){
-    motors.setSpeed(speed+25, speed-25);
+    motors.setSpeed(speed+(0.5 * speed), speed-(0.5 * speed));
   }
   else if(direction == ARC_BL){
-    motors.setSpeed( -(speed-25), -(speed+25));
+    motors.setSpeed( -(speed-(0.5 * speed)), -(speed+(0.5 * speed)));
   }
   else if(direction == ARC_BR){
-    motors.setSpeed( -(speed-25), -(speed+25));
+    motors.setSpeed( -(speed+(0.5 * speed)), -(speed-(0.5 * speed)));
   }
   else{
     motors.setSpeed(0);
-    currentDirection = STAND;
-    currentSpeed = 0;
-    gate = true;
   }
 
-  if(!gate){
-    currentDirection = direction;
-    currentSpeed = speed;
-    gate = true;
-  }
+  currentDirection = direction;
+  currentSpeed = speed;
 }
 
 void Robot::delay(Time seconds){
