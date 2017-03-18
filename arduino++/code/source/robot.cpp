@@ -12,14 +12,16 @@ class Robot {
       ARC_BL,
       ARC_BR
     };
-    
+
     void move(Direction direction, Motors::Speed speed);
     void delay(Time seconds);
 
     Direction getDirection() { return currentDirection; }
     Motors::Speed getSpeed() { return currentSpeed; }
 
-    
+    UltrasonicSensor::Value getUltrasonicValue() { return sensor.read(); }
+
+
   private:
     UltrasonicSensor sensor;
     Motors motors;
@@ -30,9 +32,9 @@ class Robot {
 };
 
 void Robot::move(Direction direction, Motors::Speed speed) {
-  
+
   bool gate = false;
-  
+
   if(direction == LEFT){
     motors.setSpeed(-100, 100);
   }
@@ -44,6 +46,18 @@ void Robot::move(Direction direction, Motors::Speed speed) {
   }
   else if(direction == BACK){
     motors.setSpeed(-speed);
+  }
+  else if(direction == ARC_FL){
+    motors.setSpeed(speed-25, speed+25);
+  }
+  else if(direction == ARC_FR){
+    motors.setSpeed(speed+25, speed-25);
+  }
+  else if(direction == ARC_BL){
+    motors.setSpeed( -(speed-25), -(speed+25));
+  }
+  else if(direction == ARC_BR){
+    motors.setSpeed( -(speed-25), -(speed+25));
   }
   else{
     motors.setSpeed(0);
@@ -63,11 +77,3 @@ void Robot::delay(Time seconds){
     long endTime = millis() + seconds * 1000;
     while(millis() < endTime) ; //_loop();
 }
-
-
-
-
-
-
-
-
