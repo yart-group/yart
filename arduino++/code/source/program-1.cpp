@@ -15,6 +15,9 @@ class Program_0 : public Program {
 
     Pilot::Code pilotCode;
 
+    Robot::Time time;
+    bool pause;
+
     bool safety;
     bool inDanger;
     const UltrasonicSensor::Value safeDistance;
@@ -23,10 +26,7 @@ class Program_0 : public Program {
     const Motors::Speed speedUnit;
     const Motors::Speed maxSpeed;
 
-    // Motor::Speed leftArcSpeed;
-    // Motor::Speed rightArcSpeed;
     Motors::Speed speed;
-
 
 };
 
@@ -35,6 +35,9 @@ Program_0::Program_0() :
   pilot(0),
 
   pilotCode(Pilot::button_START),
+
+  time(0),
+  pause(false),
 
   safety(true),
   inDanger(false),
@@ -59,10 +62,18 @@ Program_0::ExitCode Program_0::run() {
   {
     pilot->loop();
 
+    if(pilotCode != button_START){
+        if(pause == false){
+          pilotCode = Pilot::button_UP;
+        }
+    }
+
+
     /// Safety
     if(safety){
 
-      if(!inDanger){
+      if(!inDanger)
+      {
         if(robot->getUltrasonicValue() <= safeDistance){
           robot->move(Robot::STOP, 0);
           inDanger = true;
@@ -71,9 +82,19 @@ Program_0::ExitCode Program_0::run() {
         }
       }
 
-      else{
-        if(pilotCode == Pilot::button_UL || pilotCode == Pilot::button_UP || pilotCode == Pilot::button_UR)
-          continue;
+      else
+      {
+        //obrot
+        time = random(1,(3)+1);
+
+        if(random(1,(2)+1) == 1){
+          robot->move(Robot::LEFT, speed);
+        }else{
+          robot->move(Robot::RIGHT, speed);
+        }
+
+        robot->delay(time);
+        robot->move(Robot::STOP, 0);
 
         if(robot->getUltrasonicValue() > safeDistance){
           long endTime = millis() + 300;
@@ -85,49 +106,21 @@ Program_0::ExitCode Program_0::run() {
               inDanger = false;
           }
         }
+
+        continue;
       }
 
     }
 
-    // Safety control
-    if(pilotCode == Pilot::button_A){
-      safety = true;
-    }
-    else if(pilotCode == Pilot::button_C){
-      safety = false;
-    }
-
     // Basic movement
-    else if(pilotCode == Pilot::button_UP){
+    if(pilotCode == Pilot::button_UP){
       robot->move(Robot::FORWARD, speed);
-    }
-    else if(pilotCode == Pilot::button_LEFT){
-      robot->move(Robot::LEFT, speed);
-    }
-    else if(pilotCode == Pilot::button_RIGHT){
-      robot->move(Robot::RIGHT, speed);
-    }
-    else if(pilotCode == Pilot::button_DOWN){
-      robot->move(Robot::BACK, speed);
     }
 
     // Stop
     else if(pilotCode == Pilot::button_START){
-      robot->move(Robot::STOP, 0);
-    }
-
-    // Arc movement
-    else if(pilotCode == Pilot::button_UL){
-      robot->move(Robot::ARC_FL, speed);
-    }
-    else if(pilotCode == Pilot::button_UR){
-      robot->move(Robot::ARC_FR, speed);
-    }
-    else if(pilotCode == Pilot::button_DL){
-      robot->move(Robot::ARC_BL, speed);
-    }
-    else if(pilotCode == Pilot::button_DR){
-      robot->move(Robot::ARC_BR, speed);
+      pause = !pause;
+      if(pause) robot->move(Robot::STOP, 0);
     }
 
     // Settings

@@ -11,6 +11,8 @@
 #include "/run/media/robert/C09C-28FD/GitHub/Goofy/arduino++/code/source/robot.cpp"
 #include "/run/media/robert/C09C-28FD/GitHub/Goofy/arduino++/code/source/program.cpp"
 #include "/run/media/robert/C09C-28FD/GitHub/Goofy/arduino++/code/source/program-0.cpp"
+#include "/run/media/robert/C09C-28FD/GitHub/Goofy/arduino++/code/source/program-1.cpp"
+#include "/run/media/robert/C09C-28FD/GitHub/Goofy/arduino++/code/source/program-2.cpp"
 
 double angle_rad = PI/180.0;
 double angle_deg = 180.0/PI;
@@ -18,7 +20,9 @@ double angle_deg = 180.0/PI;
 Robot * robot;
 Pilot * pilot;
 
-Program_0 program;
+Program_0 manualControl;
+Program_1 walk;
+Program_2 stay;
 
 void setup(){
     robot = new Robot;
@@ -26,9 +30,17 @@ void setup(){
 
     pilot->init();
   
-    program.init();
-    program.assign( robot );
-    program.assign( pilot );
+    manualControl.init();
+    manualControl.assign( robot );
+    manualControl.assign( pilot );
+
+    walk.init();
+    walk.assign( robot );
+    walk.assign( pilot );
+
+    stay.init();
+    stay.assign( robot );
+    stay.assign( pilot );
     
 }
 
@@ -36,12 +48,25 @@ void _loop(){
     pilot->loop();
 }
 
+#define exec_program(button,program) \
+if(pilot->getCode() == Pilot:: ## button ){ \
+  robot->delay(1); \
+  program ## .run() ; \
+  robot->delay(1); \
+}
+
 void loop(){
-    program.run();
-    exit(0);
+    
+    
+    exec_program(button_1, manualControl)
+    exec_program(button_2, walk)
+    exec_program(button_3, stay)
 
     //_delay pilot;
     
     _loop();
 }
+
+#undef exec_program
+
 

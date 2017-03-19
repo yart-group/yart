@@ -64,10 +64,8 @@ Program_0::ExitCode Program_0::run() {
 
       if(!inDanger){
         if(robot->getUltrasonicValue() <= safeDistance){
-          robot->move(Robot::STOP, 0);
+          robot->move(Robot::FORWARD, 0);
           inDanger = true;
-          if(pilotCode == Pilot::button_UL || pilotCode == Pilot::button_UP || pilotCode == Pilot::button_UR)
-            continue;
         }
       }
 
@@ -152,7 +150,7 @@ Program_0::ExitCode Program_0::run() {
 
   }
 
-  robot->move(Robot::STOP, 0);
+  robot->move(Robot::FORWARD, 0);
 
   return ok;
 }
