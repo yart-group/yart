@@ -60,7 +60,7 @@ void loop(){
     
     exec_program(button_1, manualControl)
     else exec_program(button_2, walk)
-    else exec_program(button_3, stay)
+    // else exec_program(button_3, stay)
 
     //_delay pilot;
     

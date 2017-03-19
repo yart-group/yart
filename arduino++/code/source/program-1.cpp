@@ -58,11 +58,18 @@ Program_1::ExitCode Program_1::run() {
   if(!robot) return startup_error;
   if(!pilot) return startup_error;
 
+  pause = false;
+  speed = defaultSpeed;
+
   while( (pilotCode = pilot->getCode()) != Pilot::button_B )
   {
     pilot->loop();
 
-    if(pilotCode != Pilot::button_START){
+    if(pilotCode == Pilot::button_UP){
+      if(pause) continue;
+    }
+
+    if(pilotCode != Pilot::button_START && pilotCode != Pilot::button_2 && pilotCode != Pilot::button_5 && pilotCode != Pilot::button_8){
         if(pause == false){
           pilotCode = Pilot::button_UP;
         }
@@ -107,7 +114,8 @@ Program_1::ExitCode Program_1::run() {
           }
         }
 
-        continue;
+        if(pilotCode == Pilot::button_UL || pilotCode == Pilot::button_UP || pilotCode == Pilot::button_UR)
+          continue;
       }
 
     }
@@ -120,7 +128,10 @@ Program_1::ExitCode Program_1::run() {
     // Stop
     else if(pilotCode == Pilot::button_START){
       pause = !pause;
-      if(pause) robot->move(Robot::STOP, 0);
+      if(pause){
+        robot->move(Robot::STOP, 0);
+        robot->delay(1);
+      }
     }
 
     // Settings
