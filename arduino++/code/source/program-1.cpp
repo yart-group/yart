@@ -1,13 +1,13 @@
 
-class Program_0 : public Program {
+class Program_1 : public Program {
   public:
-    Program_0();
+    Program_1();
 
     virtual ExitCode init();
     virtual ExitCode run();
 
-    void assign(Robot * robot) { if(robot) Program_0::robot = robot; }
-    void assign(Pilot * pilot) { if(pilot) Program_0::pilot = pilot; }
+    void assign(Robot * robot) { if(robot) Program_1::robot = robot; }
+    void assign(Pilot * pilot) { if(pilot) Program_1::pilot = pilot; }
 
   private:
     Robot * robot;
@@ -30,7 +30,7 @@ class Program_0 : public Program {
 
 };
 
-Program_0::Program_0() :
+Program_1::Program_1() :
   robot(0),
   pilot(0),
 
@@ -50,11 +50,11 @@ Program_0::Program_0() :
   speed(defaultSpeed)
 {}
 
-Program_0::ExitCode Program_0::init() {
+Program_1::ExitCode Program_1::init() {
   return ok;
 }
 
-Program_0::ExitCode Program_0::run() {
+Program_1::ExitCode Program_1::run() {
   if(!robot) return startup_error;
   if(!pilot) return startup_error;
 
@@ -62,7 +62,7 @@ Program_0::ExitCode Program_0::run() {
   {
     pilot->loop();
 
-    if(pilotCode != button_START){
+    if(pilotCode != Pilot::button_START){
         if(pause == false){
           pilotCode = Pilot::button_UP;
         }

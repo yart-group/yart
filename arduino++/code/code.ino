@@ -49,9 +49,9 @@ void _loop(){
 }
 
 #define exec_program(button,program) \
-if(pilot->getCode() == Pilot:: ## button ){ \
+if(pilot->getCode() == Pilot:: button ){ \
   robot->delay(1); \
-  program ## .run() ; \
+  program .run() ; \
   robot->delay(1); \
 }
 
@@ -59,8 +59,8 @@ void loop(){
     
     
     exec_program(button_1, manualControl)
-    exec_program(button_2, walk)
-    exec_program(button_3, stay)
+    else exec_program(button_2, walk)
+    else exec_program(button_3, stay)
 
     //_delay pilot;
     
