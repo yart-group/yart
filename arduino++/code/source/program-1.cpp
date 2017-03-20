@@ -60,32 +60,50 @@ Program_1::ExitCode Program_1::run() {
 
   pause = false;
   speed = defaultSpeed;
+  inDanger = false;
 
   while( (pilotCode = pilot->getCode()) != Pilot::button_B )
   {
     pilot->loop();
 
-    if(pilotCode == Pilot::button_UP){
-      if(pause) continue;
+    // Stop
+    if(pilotCode == Pilot::button_START){
+      pause = !pause;
     }
 
-    if(pilotCode != Pilot::button_START && pilotCode != Pilot::button_2 && pilotCode != Pilot::button_5 && pilotCode != Pilot::button_8){
-        if(pause == false){
-          pilotCode = Pilot::button_UP;
-        }
+    // Settings
+    else if(pilotCode == Pilot::button_2){
+      if(speed + speedUnit <= maxSpeed){
+        speed += speedUnit;
+        //robot->move(robot->getDirection(), speed);
+      }
+    }
+    else if(pilotCode == Pilot::button_5){
+      speed = defaultSpeed;
+      //robot->move(robot->getDirection(), speed);
+    }
+    else if(pilotCode == Pilot::button_8){
+      if(speed - speedUnit > 0){
+        speed -= speedUnit;
+        //robot->move(robot->getDirection(), speed);
+      }
     }
 
+    if(pause){
+      robot->move(Robot::STOP, 0);
+      continue;
+    }
 
     /// Safety
-    if(safety){
 
-      if(!inDanger)
+      if(inDanger == false)
       {
         if(robot->getUltrasonicValue() <= safeDistance){
           robot->move(Robot::STOP, 0);
           inDanger = true;
-          if(pilotCode == Pilot::button_UL || pilotCode == Pilot::button_UP || pilotCode == Pilot::button_UR)
-            continue;
+          continue;
+        }else{
+          robot->move(Robot::FORWARD, speed);
         }
       }
 
@@ -114,45 +132,9 @@ Program_1::ExitCode Program_1::run() {
           }
         }
 
-        if(pilotCode == Pilot::button_UL || pilotCode == Pilot::button_UP || pilotCode == Pilot::button_UR)
-          continue;
+        if(inDanger == false) robot->move(Robot::FORWARD, speed);
+        else robot->move(Robot::STOP, 0);
       }
-
-    }
-
-    // Basic movement
-    if(pilotCode == Pilot::button_UP){
-      robot->move(Robot::FORWARD, speed);
-    }
-
-    // Stop
-    else if(pilotCode == Pilot::button_START){
-      pause = !pause;
-      if(pause){
-        robot->move(Robot::STOP, 0);
-        robot->delay(1);
-      }
-    }
-
-    // Settings
-    else if(pilotCode == Pilot::button_2){
-      if(speed + speedUnit <= maxSpeed){
-        speed += speedUnit;
-        robot->move(robot->getDirection(), speed);
-      }
-    }
-    else if(pilotCode == Pilot::button_5){
-      speed = defaultSpeed;
-      robot->move(robot->getDirection(), speed);
-    }
-    else if(pilotCode == Pilot::button_8){
-      if(speed - speedUnit > 0){
-        speed -= speedUnit;
-        robot->move(robot->getDirection(), speed);
-      }
-    }
-
-
 
   }
 
