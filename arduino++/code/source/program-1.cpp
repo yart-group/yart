@@ -66,35 +66,39 @@ Program_1::ExitCode Program_1::run() {
   {
     pilot->loop();
 
-    speed= defaultSpeed;
-
-    // // Stop
-    // if(pilotCode == Pilot::button_START){
-    //   pause = !pause;
-    // }
-    //
-    // // Settings
-    // else if(pilotCode == Pilot::button_2){
-    //   if(speed + speedUnit <= maxSpeed){
-    //     speed += speedUnit;
-    //     //robot->move(robot->getDirection(), speed);
-    //   }
-    // }
-    // else if(pilotCode == Pilot::button_5){
-    //   speed = defaultSpeed;
-    //   //robot->move(robot->getDirection(), speed);
-    // }
-    // else if(pilotCode == Pilot::button_8){
-    //   if(speed - speedUnit > 0){
-    //     speed -= speedUnit;
-    //     //robot->move(robot->getDirection(), speed);
-    //   }
-    // }
-    //
-    // if(pause){
-    //   robot->move(Robot::STOP, 0);
-    //   continue;
-    // }
+    // Stop
+    if(pilotCode == Pilot::button_START){
+      	pause = !pause;
+	  	
+		if(pause) {
+			robot->move(Robot::STOP, 0);
+			continue;
+		} else {
+			robot->move(Robot::FORWARD, speed);
+		}
+    }
+    
+    // Settings
+    else if(pilotCode == Pilot::button_2){
+      if(speed + speedUnit <= maxSpeed){
+        speed += speedUnit;
+        //robot->move(robot->getDirection(), speed);
+      }
+    }
+    else if(pilotCode == Pilot::button_5){
+      speed = defaultSpeed;
+      //robot->move(robot->getDirection(), speed);
+    }
+    else if(pilotCode == Pilot::button_8){
+      if(speed - speedUnit > 0){
+        speed -= speedUnit;
+        //robot->move(robot->getDirection(), speed);
+      }
+    }
+    
+    if(pause){
+      continue;
+    }
 
     /// Safety
 
