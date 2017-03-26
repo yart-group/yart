@@ -17,7 +17,7 @@ ARDMK_DIR         = $(PROJECT_DIR)/Arduino-Makefile
 ### On OS X:
 #ARDUINO_DIR       = /Applications/Arduino.app/Contents/Java
 ### or on Linux: (remove the one you don't want)
-ARDUINO_DIR       = mBlock/resources/tools/arduino
+ARDUINO_DIR       = /opt/mBlock/resources/tools/arduino
 
 ### USER_LIB_PATH
 ### Path to where the your project's libraries are stored.
