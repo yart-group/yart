@@ -4,7 +4,7 @@ Port::Port() :
   _usable(false),
   _port(0),
   _min(1),
-  _max(10),
+  _max(10)
 {}
 
 void Port::setPort(int port)

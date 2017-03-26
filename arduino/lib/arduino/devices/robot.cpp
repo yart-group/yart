@@ -1,5 +1,7 @@
 #include "robot.h"
 
+#include "programmer/programmer.h"
+
 bool Robot::powerOff_addons()
 {
   _ultrasonicSensor.power.setOff();

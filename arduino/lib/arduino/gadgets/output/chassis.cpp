@@ -1,6 +1,6 @@
 #include "chassis.h"
 
-void Chassis::powerOff_addons()
+bool Chassis::powerOff_addons()
 {
   delete _motorLeft;
   delete _motorRight;

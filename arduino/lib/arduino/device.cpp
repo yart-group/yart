@@ -11,7 +11,7 @@ void Device::init()
   if(power.enabled() == false) return ;
   if(_state == WORKING) return ;
   if( init_addons() == false ) return ;
-  _state = WORKING
+  _state = WORKING;
 }
 
 bool Device::powerCheck()

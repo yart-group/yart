@@ -1,7 +1,7 @@
 #include "programmer.h"
 
 Programmer::Programmer() :
-  _gadget(new *Gadget[10]),
+  //_gadget(new *Gadget[10]),
   _gadgets(0),
   _robot(nullptr),
   _kernel(nullptr)
@@ -26,7 +26,7 @@ void Programmer::plug(Gadget *gadget)
 
 void Programmer::plug(Robot *robot)
 {
-  if(robot) _robor = robot;
+  if(robot) _robot = robot;
 }
 
 void Programmer::load(Kernel *kernel)

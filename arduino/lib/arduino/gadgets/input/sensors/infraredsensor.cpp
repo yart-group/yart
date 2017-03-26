@@ -7,7 +7,7 @@ bool InfraredSensor::powerOff_addons()
   return true;
 }
 
-void InfraredSensor::init_addons()
+bool InfraredSensor::init_addons()
 {
   return reconnect();
 }
