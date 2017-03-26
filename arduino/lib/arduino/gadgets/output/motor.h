@@ -8,22 +8,15 @@
 class Motor : public OutputGadget
 {
   public:
-    Motor();
+    Motor() : _motor(nullptr) {}
 
-    typedef int Speed;
-    typedef int Distance;
+    virtual bool powerOff_addons();
+    virtual bool init_addons();
 
-    //Device
-    virtual void powerOff();
+    virtual bool reconnect_addons();
 
-    virtual void loop() {}
-
-    //Gadget
-    virtual void refresh();
-
-    //OutputGadget
-    virtual void write(const char * data, int size = 0);
-    virtual void write(double data);
+    virtual void write_addons(const char * data, int size = 0);
+    virtual void write_addons(double data);
 
   private:
 #if COMPILE_FOR_ARDUINO_UPLOAD == true

@@ -8,19 +8,18 @@
 class Chassis : public OutputGadget
 {
   public:
-    Chassis();
+    Chassis() :
+      _motorLeft(nullptr),
+      _motorRight(nullptr)
+    {}
 
-    //Device
-    virtual void powerOff();
+    virtual bool powerOff_addons();
+    virtual bool init_addons();
 
-    virtual void loop() {}
+    virtual bool reconnect_addons();
 
-    //Gadget
-    virtual void refresh();
-
-    //OutputGadget
-    virtual void write(const char * data, int size = 0);
-    virtual void write(double data);
+    virtual void write_addons(const char * data, int size = 0);
+    virtual void write_addons(double data);
 
   private:
 #if COMPILE_FOR_ARDUINO_UPLOAD == true

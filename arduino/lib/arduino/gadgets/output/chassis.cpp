@@ -1,31 +1,27 @@
 #include "chassis.h"
 
-Chassis::Chassis() : _motorLeft(nullptr), _motorRight(nullptr)
-{
-
-}
-
-void Chassis::powerOff()
+void Chassis::powerOff_addons()
 {
   delete _motorLeft;
   delete _motorRight;
   _motorLeft = nullptr;
   _motorRight = nullptr;
-  _state = NOT_WORKING;
+  return true;
 }
 
-void Chassis::refresh()
+bool Chassis::init_addons()
 {
-  if(power.enabled() == false){
-    powerOff();
-    return ;
-  }
+  return reconnect();
+}
 
+bool Chassis::reconnect_addons()
+{
   if(debug.enabled()){
     // debug msg
   }
 
-  if(freeze.enabled()) return;
+  if(freeze.enabled()) return false;
+  if(port.usable() == false) return false;
 
   if(_motorLeft) delete _motorLeft;
   if(_motorRight) delete _motorRight;
@@ -37,45 +33,32 @@ void Chassis::refresh()
   _motorLeft = new int;
 #endif
 
-  //@TODO: handle: port, init(), loop() etc.
-  _state = WORKING;
+  return true;
 }
 
-void Chassis::write(const char *data, int size)
+void Chassis::write_addons(const char *data, int size)
 {
-  if(power.enabled() == false){
-    powerOff();
-    return ;
-  }
-
   if(debug.enabled()){
     // debug msg
   }
 
-  if(freeze.enabled()) return;
   if(_state != WORKING) return;
+  if(freeze.enabled()) return;
 
   // null
 }
 
-void Chassis::write(double data)
+void Chassis::write_addons(double data)
 {
-  if(power.enabled() == false){
-    powerOff();
-    return ;
-  }
-
   if(debug.enabled()){
     // debug msg
   }
 
-  if(freeze.enabled()) return;
   if(_state != WORKING) return;
+  if(freeze.enabled()) return;
 
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
   _motorLeft->write(data);
   _motorRight->write(data);
-#else
-  // null
 #endif
 }

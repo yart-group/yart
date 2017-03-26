@@ -7,14 +7,15 @@
 class Gadget : public Device
 {
   public:
-    //Device
-    virtual void init() { refresh(); }
-
-    Gadget();
+    Gadget() {}
 
     Port port;
+    virtual bool reconnect();
+    virtual void loop();
 
-    virtual void refresh() = 0;
+  protected:
+    virtual bool reconnect_addons() = 0;
+    virtual void loop_addons() {}
 };
 
 #endif // GADGET_H

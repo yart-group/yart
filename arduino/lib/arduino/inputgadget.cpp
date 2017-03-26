@@ -1,6 +1,9 @@
 #include "inputgadget.h"
 
-InputGadget::InputGadget()
+double InputGadget::read()
 {
-
+  if(powerCheck())
+    return read_addons();
+  else
+    return -1;
 }

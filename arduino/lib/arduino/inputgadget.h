@@ -6,9 +6,12 @@
 class InputGadget : public Gadget
 {
   public:
-    InputGadget();
+    InputGadget() {}
 
-    virtual double read() = 0;
+    virtual double read();
+
+  protected:
+    virtual double read_addons() = 0;
 };
 
 #endif // INPUTGADGET_H

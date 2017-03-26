@@ -6,16 +6,13 @@
 class Device
 {
   public:
-    Device();
+    Device() : _state(NOT_WORKING) {}
 
     Switch power;
     Switch debug;
     Switch freeze;
 
-    virtual void powerOff() = 0;
-
-    virtual void init() = 0;
-    virtual void loop() {}
+    virtual void init();
 
     enum State {
       WORKING,
@@ -26,6 +23,13 @@ class Device
 
   protected:
     int _state;
+
+    virtual void powerOff();
+
+    virtual bool powerOff_addons() = 0;
+    virtual bool init_addons() = 0;
+
+    virtual bool powerCheck();
 };
 
 #endif // DEVICE_H

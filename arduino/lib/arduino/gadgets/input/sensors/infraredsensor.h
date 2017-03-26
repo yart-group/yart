@@ -7,24 +7,15 @@
 class InfraredSensor : public Sensor
 {
   public:
-    InfraredSensor();
+    InfraredSensor() : _sensor(nullptr) {}
 
-    //Device
-    virtual void powerOff();
+    virtual bool powerOff_addons();
+    virtual bool init_addons();
 
-    virtual void loop() {
-#if COMPILE_FOR_ARDUINO_UPLOAD == true
-      _sensor->loop();
-#else
-      // null
-#endif
-    }
+    virtual bool reconnect_addons();
+    virtual void loop_addons();
 
-    //Gadget
-    virtual void refresh();
-
-    //InputGadget
-    virtual double read();
+    virtual double read_addons();
 
   private:
 #if COMPILE_FOR_ARDUINO_UPLOAD == true

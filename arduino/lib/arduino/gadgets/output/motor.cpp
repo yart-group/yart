@@ -1,29 +1,25 @@
 #include "motor.h"
 
-Motor::Motor() : _motor(nullptr)
-{
-
-}
-
-void Motor::powerOff()
+bool Motor::powerOff_addons()
 {
   delete _motor;
   _motor = nullptr;
-  _state = NOT_WORKING;
+  return true;
 }
 
-void Motor::refresh()
+bool Motor::init_addons()
 {
-  if(power.enabled() == false){
-    powerOff();
-    return ;
-  }
+  return reconnect();
+}
 
+bool Motor::reconnect_addons()
+{
   if(debug.enabled()){
     // debug msg
   }
 
-  if(freeze.enabled()) return;
+  if(freeze.enabled()) return false;
+  if(port.usable() == false) return false;
 
   if(_motor) delete _motor;
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
@@ -31,43 +27,32 @@ void Motor::refresh()
 #else
   _motor = new int;
 #endif
-  _state = WORKING;
+
+  return true;
 }
 
-void Motor::write(const char *data, int size)
+void Motor::write_addons(const char *data, int size)
 {
-  if(power.enabled() == false){
-    powerOff();
-    return ;
-  }
-
   if(debug.enabled()){
     // debug msg
   }
 
-  if(freeze.enabled()) return;
   if(_state != WORKING) return;
+  if(freeze.enabled()) return;
 
   // null
 }
 
-void Motor::write(double data)
+void Motor::write_addons(double data)
 {
-  if(power.enabled() == false){
-    powerOff();
-    return ;
-  }
-
   if(debug.enabled()){
     // debug msg
   }
 
-  if(freeze.enabled()) return;
   if(_state != WORKING) return;
+  if(freeze.enabled()) return;
 
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
   _motor->run(data);
-#else
-  // null
 #endif
 }

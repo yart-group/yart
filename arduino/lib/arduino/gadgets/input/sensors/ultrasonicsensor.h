@@ -7,18 +7,14 @@
 class UltrasonicSensor : public Sensor
 {
   public:
-    UltrasonicSensor();
+    UltrasonicSensor() : _sensor(nullptr) {}
 
-    //Device
-    virtual void powerOff();
+    virtual bool powerOff_addons();
+    virtual bool init_addons();
 
-    virtual void loop() {}
+    virtual bool reconnect_addons();
 
-    //Gadget
-    virtual void refresh();
-
-    //InputGadget
-    virtual double read();
+    virtual double read_addons();
 
   private:
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
