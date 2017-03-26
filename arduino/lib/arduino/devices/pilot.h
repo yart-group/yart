@@ -7,13 +7,10 @@
 class Pilot : public Device
 {
   public:
-    Pilot();
+    Pilot() {}
 
-    //Device
-    virtual void powerOff();
-
-    virtual void init();
-    virtual void loop();
+    virtual bool powerOff_addons();
+    virtual bool init_addons();
 
     enum Code {
       button_A = 69,

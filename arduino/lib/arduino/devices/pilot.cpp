@@ -1,46 +1,40 @@
 #include "pilot.h"
 
-Pilot::Pilot()
+bool Pilot::powerOff_addons()
 {
-
+  return true;
 }
 
-void Pilot::powerOff()
-{
-  _state = NOT_WORKING;
-}
-
-void Pilot::init()
+bool Pilot::init_addons()
 {
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
+  _infraredSensor.power.setOn();
+  _infraredSensor.port.setPort(6);
   _infraredSensor.init();
+  if(_infraredSensor.state() == WORKING)
+    return true;
+  else
+    return false;
 #endif
-  _state = WORKING;
-}
-
-void Pilot::loop()
-{
-#if COMPILE_FOR_ARDUINO_UPLOAD == true
-  _infraredSensor.loop();
-#endif
+  return true;
 }
 
 int Pilot::getCode()
 {
-  if(power.enabled() == false){
-    powerOff();
-    return 1;
-  }
+  if(!powerCheck())
+    return -1;
 
   if(debug.enabled()){
     // debug msg
   }
 
-  if(freeze.enabled()) return 1;
   if(_state == NOT_WORKING) return 1;
+  if(freeze.enabled()) return 1;
 
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
-  return (_lastCode = _infraredSensor.read());
+  _lastCode = _infraredSensor.read();
+  _infraredSensor.loop();
+  return _lastCode;
 #else
   return 0;
 #endif
@@ -49,17 +43,15 @@ int Pilot::getCode()
 
 int Pilot::getLast()
 {
-  if(power.enabled() == false){
-    powerOff();
-    return 1;
-  }
+  if(!powerCheck())
+    return -1;
 
   if(debug.enabled()){
     // debug msg
   }
 
-  if(freeze.enabled()) return 1;
   if(_state == NOT_WORKING) return 1;
+  if(freeze.enabled()) return 1;
 
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
   return _lastCode;
