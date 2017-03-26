@@ -4,6 +4,14 @@
 ### to https://github.com/sudar/Arduino-Makefile/blob/master/arduino-mk-vars.md
 ### Original project where this Makefile comes from: https://github.com/WeAreLeka/Bare-Arduino-Project
 
+### SRC
+GOOFY_C_SRCS = 
+GOOFY_CPP_SRCS = 
+GOOFY_CC_SRCS = 
+GOOFY_PDE_SRCS = 
+GOOFY_INO_SRCS = 
+GOOFY_AS_SRCS = 
+
 ### PROJECT_DIR
 ### This is the path to where you have created/cloned your project
 PROJECT_DIR       = .
