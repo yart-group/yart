@@ -2,6 +2,7 @@
 
 bool Pilot::powerOff_addons()
 {
+  _infraredSensor.power.setOff();
   return true;
 }
 

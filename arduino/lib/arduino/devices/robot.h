@@ -7,19 +7,16 @@
 //#include "programmer/programmer.h" // preprocessor error (#include loop)
 class Programmer;
 
-// @TODO: wszystko :)
-
 class Robot : public Device
 {
   public:
-    Robot();
+    Robot() : _programmer(nullptr) {}
 
-    virtual void powerOff() {}
+    virtual bool powerOff_addons();
+    virtual bool init_addons();
 
-    virtual void init() {}
 
-
-    void mount(Programmer * /*programmer*/) {}
+    void mount(Programmer * programmer);
 
   private:
     Chassis _chassis;

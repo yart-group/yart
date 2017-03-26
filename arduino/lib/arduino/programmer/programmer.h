@@ -16,16 +16,20 @@ class Programmer : public Device
 
     Programmer();
 
-    void plug(Gadget * /*gadget*/) {}
-    void plug(Robot * /*robot*/) {}
+    virtual bool powerOff_addons();
+    virtual bool init_addons();
 
-    void load(Kernel * /*kernel*/) {}
+    void plug(Gadget * gadget);
+    void plug(Robot * robot);
+
+    void load(Kernel * kernel);
 
   private:
-    Gadget * _gadget;
-    Robot * _robot;
+    Gadget ** _gadget;
+    int _gadgets;
 
-    Kernel * kernel;
+    Robot * _robot;
+    Kernel * _kernel;
 };
 
 #include "kernel.h"
