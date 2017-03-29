@@ -6,7 +6,6 @@
 class Sensor : public InputGadget
 {
   public:
-    Sensor();
 };
 
 #endif // SENSOR_H

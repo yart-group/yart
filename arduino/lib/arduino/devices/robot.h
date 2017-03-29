@@ -3,23 +3,27 @@
 
 #include "device.h"
 #include "gadgets/input/sensors/ultrasonicsensor.h"
-#include "gadgets/output/chassis.h"
-//#include "programmer/programmer.h" // preprocessor error (#include loop)
+#include "gadgets/output/motor.h"
+
 class Programmer;
 
 class Robot : public Device
 {
   public:
-    Robot() : _programmer(nullptr) {}
+    Robot();
 
-    virtual bool powerOff_addons();
-    virtual bool init_addons();
+    bool init();
+    void powerOn();
+    void powerOff();
 
+    bool mount(Programmer * programmer);
+    bool unmount();
+    bool programmerMounted();
 
-    void mount(Programmer * programmer);
 
   private:
-    Chassis _chassis;
+    Motor _leftMotor;
+    Motor _rightMotor;
     UltrasonicSensor _ultrasonicSensor;
 
     Programmer * _programmer;

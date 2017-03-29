@@ -1,24 +1,14 @@
 #include "infraredsensor.h"
 
-bool InfraredSensor::powerOff_addons()
+void InfraredSensor::powerOff()
 {
-  delete _sensor;
+  Sensor::powerOff();
+  if(_sensor) delete _sensor;
   _sensor = nullptr;
-  return true;
 }
 
-bool InfraredSensor::init_addons()
+bool InfraredSensor::reconnect()
 {
-  return reconnect();
-}
-
-bool InfraredSensor::reconnect_addons()
-{
-  if(debug.enabled()){
-    // debug msg
-  }
-
-  if(freeze.enabled()) return false;
   if(port.usable() == false) return false;
 
   if(_sensor) delete _sensor;
@@ -32,21 +22,17 @@ bool InfraredSensor::reconnect_addons()
   return true;
 }
 
-void InfraredSensor::loop_addons()
+bool InfraredSensor::loop()
 {
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
   _sensor->loop();
 #endif
+  return true;
 }
 
-double InfraredSensor::read_addons()
+double InfraredSensor::read()
 {
-  if(debug.enabled()){
-    // debug msg
-  }
-
-  if(_state != WORKING) return -1;
-  if(freeze.enabled()) return -1;
+  if(! working()) return -1;
 
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
   return _sensor->getCode();

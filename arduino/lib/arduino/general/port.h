@@ -9,7 +9,7 @@ class Port
 
     bool usable() { return _usable; }
 
-    void setPort(int port);
+    bool setPort(int port);
     int getPort();
 
   private:

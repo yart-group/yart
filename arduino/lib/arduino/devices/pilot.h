@@ -7,10 +7,7 @@
 class Pilot : public Device
 {
   public:
-    Pilot() {}
-
-    virtual bool powerOff_addons();
-    virtual bool init_addons();
+    Pilot() : _lastCode(0) {}
 
     enum Code {
       button_A = 69,
@@ -42,6 +39,10 @@ class Pilot : public Device
       button_DL = button_0,
       button_DR = button_F,
     };
+
+    bool init();
+    void powerOn();
+    void powerOff();
 
     int getCode();
     int getLast();

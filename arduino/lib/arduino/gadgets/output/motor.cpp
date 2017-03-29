@@ -1,24 +1,15 @@
 #include "motor.h"
 
-bool Motor::powerOff_addons()
+void Motor::powerOff()
 {
-  delete _motor;
+  OutputGadget::powerOff();
+  if(_motor) delete _motor;
   _motor = nullptr;
-  return true;
 }
 
-bool Motor::init_addons()
-{
-  return reconnect();
-}
 
-bool Motor::reconnect_addons()
+bool Motor::reconnect()
 {
-  if(debug.enabled()){
-    // debug msg
-  }
-
-  if(freeze.enabled()) return false;
   if(port.usable() == false) return false;
 
   if(_motor) delete _motor;
@@ -31,26 +22,9 @@ bool Motor::reconnect_addons()
   return true;
 }
 
-void Motor::write_addons(const char *data, int size)
+void Motor::write(double data)
 {
-  if(debug.enabled()){
-    // debug msg
-  }
-
-  if(_state != WORKING) return;
-  if(freeze.enabled()) return;
-
-  // null
-}
-
-void Motor::write_addons(double data)
-{
-  if(debug.enabled()){
-    // debug msg
-  }
-
-  if(_state != WORKING) return;
-  if(freeze.enabled()) return;
+  if(! working()) return;
 
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
   _motor->run(data);

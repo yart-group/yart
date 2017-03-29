@@ -9,13 +9,12 @@ class InfraredSensor : public Sensor
   public:
     InfraredSensor() : _sensor(nullptr) {}
 
-    virtual bool powerOff_addons();
-    virtual bool init_addons();
+    void powerOff();
 
-    virtual bool reconnect_addons();
-    virtual void loop_addons();
+    bool reconnect();
+    bool loop();
 
-    virtual double read_addons();
+    double read();
 
   private:
 #if COMPILE_FOR_ARDUINO_UPLOAD == true

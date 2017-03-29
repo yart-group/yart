@@ -6,12 +6,9 @@
 class InputGadget : public Gadget
 {
   public:
-    InputGadget() {}
+    InputGadget() { meta.type = Meta::InputGadget; }
 
-    virtual double read();
-
-  protected:
-    virtual double read_addons() = 0;
+    virtual double read() = 0;
 };
 
 #endif // INPUTGADGET_H

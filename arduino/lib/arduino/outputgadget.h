@@ -6,14 +6,9 @@
 class OutputGadget : public Gadget
 {
   public:
-    OutputGadget() {}
+    OutputGadget() { meta.type = Meta::OutputGadget; }
 
-    virtual void write(const char * data, int size = 0);
-    virtual void write(double data);
-
-  protected:
-    virtual void write_addons(const char * data, int size = 0) = 0;
-    virtual void write_addons(double data) = 0;
+    virtual void write(double data) = 0;
 };
 
 #endif // OUTPUTGADGET_H

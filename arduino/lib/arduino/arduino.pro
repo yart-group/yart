@@ -21,7 +21,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-SOURCES += arduino.cpp \
+SOURCES += \
     device.cpp \
     gadget.cpp \
     inputgadget.cpp \
@@ -36,14 +36,18 @@ SOURCES += arduino.cpp \
     gadgets/input/sensor.cpp \
     gadgets/io/cable.cpp \
     gadgets/output/motor.cpp \
-    gadgets/output/chassis.cpp \
     gadgets/input/sensors/ultrasonicsensor.cpp \
     gadgets/input/sensors/infraredsensor.cpp \
-    general/switch.cpp \
-    programmer/port.cpp \
-    programmer/kernel.cpp
+    general/port.cpp \
+    programmer/kernel.cpp \
+    general/meta.cpp \
+    general/stropr.cpp \
+    programmer/program.cpp \
+    programmer/driver.cpp \
+    programmer/programcontainer.cpp \
+    programmer/commandtable.cpp
 
-HEADERS += arduino.h \
+HEADERS += \
     device.h \
     gadget.h \
     inputgadget.h \
@@ -58,13 +62,17 @@ HEADERS += arduino.h \
     gadgets/input/sensor.h \
     gadgets/io/cable.h \
     gadgets/output/motor.h \
-    gadgets/output/chassis.h \
     gadgets/input/sensors/ultrasonicsensor.h \
     gadgets/input/sensors/infraredsensor.h \
-    general/switch.h \
-    programmer/port.h \
+    general/port.h \
     programmer/kernel.h \
-    general/config.h
+    general/config.h \
+    general/meta.h \
+    general/stropr.h \
+    programmer/program.h \
+    programmer/driver.h \
+    programmer/programcontainer.h \
+    programmer/commandtable.h
 unix {
     target.path = /usr/lib
     INSTALLS += target

@@ -6,7 +6,6 @@
 class Cable : public IOGadget
 {
   public:
-    Cable();
 };
 
 #endif // CABLE_H

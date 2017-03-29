@@ -1,14 +1,11 @@
 #include "gadget.h"
 
-bool Gadget::reconnect()
+bool Gadget::init()
 {
-  if(powerCheck())
-    return reconnect_addons();
-  else
-    return false;
-}
-void Gadget::loop()
-{
-  if(powerCheck())
-    loop_addons();
+  if( ! Device::init() ) return false;
+
+  if( ! reconnect() )
+    _state = NOT_WORKING;
+
+  return working();
 }

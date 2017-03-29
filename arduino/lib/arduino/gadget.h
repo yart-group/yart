@@ -2,20 +2,21 @@
 #define GADGET_H
 
 #include "device.h"
-#include "programmer/port.h"
+#include "general/port.h"
+#include "general/meta.h"
 
 class Gadget : public Device
 {
   public:
-    Gadget() {}
+    Gadget() : meta(Meta::Gadget) {}
 
     Port port;
-    virtual bool reconnect();
-    virtual void loop();
+    Meta meta;
 
-  protected:
-    virtual bool reconnect_addons() = 0;
-    virtual void loop_addons() {}
+    virtual bool reconnect() = 0;
+    virtual bool loop() = 0;
+
+    bool init();
 };
 
 #endif // GADGET_H

@@ -1,36 +1,33 @@
 #include "pilot.h"
 
-bool Pilot::powerOff_addons()
+bool Pilot::init()
 {
-  _infraredSensor.power.setOff();
-  return true;
-}
+  if(! Device::init()) return false;
 
-bool Pilot::init_addons()
-{
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
-  _infraredSensor.power.setOn();
   _infraredSensor.port.setPort(6);
   _infraredSensor.init();
-  if(_infraredSensor.state() == WORKING)
+  if( _infraredSensor.working() )
     return true;
   else
     return false;
 #endif
   return true;
 }
+void Pilot::powerOn()
+{
+  Device::powerOn();
+  _infraredSensor.powerOn();
+}
+void Pilot::powerOff()
+{
+  _infraredSensor.powerOff();
+  Device::powerOff();
+}
 
 int Pilot::getCode()
 {
-  if(!powerCheck())
-    return -1;
-
-  if(debug.enabled()){
-    // debug msg
-  }
-
-  if(_state == NOT_WORKING) return 1;
-  if(freeze.enabled()) return 1;
+  if(! working()) return -1;
 
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
   _lastCode = _infraredSensor.read();
@@ -41,18 +38,9 @@ int Pilot::getCode()
 #endif
 
 }
-
 int Pilot::getLast()
 {
-  if(!powerCheck())
-    return -1;
-
-  if(debug.enabled()){
-    // debug msg
-  }
-
-  if(_state == NOT_WORKING) return 1;
-  if(freeze.enabled()) return 1;
+  if(! working()) return -1;
 
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
   return _lastCode;

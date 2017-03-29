@@ -6,7 +6,6 @@
 class Battery : public InputGadget
 {
   public:
-    Battery();
 };
 
 #endif // BATTERY_H

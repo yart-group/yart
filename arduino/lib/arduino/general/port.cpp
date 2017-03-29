@@ -7,11 +7,12 @@ Port::Port() :
   _max(10)
 {}
 
-void Port::setPort(int port)
+bool Port::setPort(int port)
 {
-  if(port < _min || port > _max) return ;
+  if(port < _min || port > _max) return false;
   _port = port;
   _usable = true;
+  return true;
 }
 int Port::getPort()
 {

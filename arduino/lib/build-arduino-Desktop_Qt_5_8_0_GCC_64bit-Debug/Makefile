@@ -33,7 +33,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = arduino1.0.0
-DISTDIR = /data/user/robert/Projects/current/Goofy/arduino/ard/build-arduino-Desktop_Qt_5_8_0_GCC_64bit-Debug/.tmp/arduino1.0.0
+DISTDIR = /data/user/robert/Projects/current/Goofy/arduino/lib/build-arduino-Desktop_Qt_5_8_0_GCC_64bit-Debug/.tmp/arduino1.0.0
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -45,8 +45,7 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../arduino/arduino.cpp \
-		../arduino/device.cpp \
+SOURCES       = ../arduino/device.cpp \
 		../arduino/gadget.cpp \
 		../arduino/inputgadget.cpp \
 		../arduino/outputgadget.cpp \
@@ -60,14 +59,17 @@ SOURCES       = ../arduino/arduino.cpp \
 		../arduino/gadgets/input/sensor.cpp \
 		../arduino/gadgets/io/cable.cpp \
 		../arduino/gadgets/output/motor.cpp \
-		../arduino/gadgets/output/chassis.cpp \
 		../arduino/gadgets/input/sensors/ultrasonicsensor.cpp \
 		../arduino/gadgets/input/sensors/infraredsensor.cpp \
-		../arduino/general/switch.cpp \
-		../arduino/programmer/port.cpp \
-		../arduino/programmer/kernel.cpp 
-OBJECTS       = arduino.o \
-		device.o \
+		../arduino/general/port.cpp \
+		../arduino/programmer/kernel.cpp \
+		../arduino/general/meta.cpp \
+		../arduino/general/stropr.cpp \
+		../arduino/programmer/program.cpp \
+		../arduino/programmer/driver.cpp \
+		../arduino/programmer/programcontainer.cpp \
+		../arduino/programmer/commandtable.cpp 
+OBJECTS       = device.o \
 		gadget.o \
 		inputgadget.o \
 		outputgadget.o \
@@ -81,12 +83,16 @@ OBJECTS       = arduino.o \
 		sensor.o \
 		cable.o \
 		motor.o \
-		chassis.o \
 		ultrasonicsensor.o \
 		infraredsensor.o \
-		switch.o \
 		port.o \
-		kernel.o
+		kernel.o \
+		meta.o \
+		stropr.o \
+		program.o \
+		driver.o \
+		programcontainer.o \
+		commandtable.o
 DIST          = /data/user/robert/Database/programs/Qt/5.8/gcc_64/mkspecs/features/spec_pre.prf \
 		/data/user/robert/Database/programs/Qt/5.8/gcc_64/mkspecs/common/unix.conf \
 		/data/user/robert/Database/programs/Qt/5.8/gcc_64/mkspecs/common/linux.conf \
@@ -253,8 +259,7 @@ DIST          = /data/user/robert/Database/programs/Qt/5.8/gcc_64/mkspecs/featur
 		/data/user/robert/Database/programs/Qt/5.8/gcc_64/mkspecs/features/exceptions.prf \
 		/data/user/robert/Database/programs/Qt/5.8/gcc_64/mkspecs/features/yacc.prf \
 		/data/user/robert/Database/programs/Qt/5.8/gcc_64/mkspecs/features/lex.prf \
-		../arduino/arduino.pro arduino.h \
-		device.h \
+		../arduino/arduino.pro device.h \
 		gadget.h \
 		inputgadget.h \
 		outputgadget.h \
@@ -268,14 +273,17 @@ DIST          = /data/user/robert/Database/programs/Qt/5.8/gcc_64/mkspecs/featur
 		gadgets/input/sensor.h \
 		gadgets/io/cable.h \
 		gadgets/output/motor.h \
-		gadgets/output/chassis.h \
 		gadgets/input/sensors/ultrasonicsensor.h \
 		gadgets/input/sensors/infraredsensor.h \
-		general/switch.h \
-		programmer/port.h \
+		general/port.h \
 		programmer/kernel.h \
-		general/config.h ../arduino/arduino.cpp \
-		../arduino/device.cpp \
+		general/config.h \
+		general/meta.h \
+		general/stropr.h \
+		programmer/program.h \
+		programmer/driver.h \
+		programmer/programcontainer.h \
+		programmer/commandtable.h ../arduino/device.cpp \
 		../arduino/gadget.cpp \
 		../arduino/inputgadget.cpp \
 		../arduino/outputgadget.cpp \
@@ -289,12 +297,16 @@ DIST          = /data/user/robert/Database/programs/Qt/5.8/gcc_64/mkspecs/featur
 		../arduino/gadgets/input/sensor.cpp \
 		../arduino/gadgets/io/cable.cpp \
 		../arduino/gadgets/output/motor.cpp \
-		../arduino/gadgets/output/chassis.cpp \
 		../arduino/gadgets/input/sensors/ultrasonicsensor.cpp \
 		../arduino/gadgets/input/sensors/infraredsensor.cpp \
-		../arduino/general/switch.cpp \
-		../arduino/programmer/port.cpp \
-		../arduino/programmer/kernel.cpp
+		../arduino/general/port.cpp \
+		../arduino/programmer/kernel.cpp \
+		../arduino/general/meta.cpp \
+		../arduino/general/stropr.cpp \
+		../arduino/programmer/program.cpp \
+		../arduino/programmer/driver.cpp \
+		../arduino/programmer/programcontainer.cpp \
+		../arduino/programmer/commandtable.cpp
 QMAKE_TARGET  = arduino
 DESTDIR       = 
 TARGET        = libarduino.a
@@ -688,129 +700,76 @@ compiler_clean:
 
 ####### Compile
 
-arduino.o: ../arduino/arduino.cpp ../arduino/arduino.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o arduino.o ../arduino/arduino.cpp
-
-device.o: ../arduino/device.cpp ../arduino/device.h \
-		../arduino/general/switch.h
+device.o: ../arduino/device.cpp ../arduino/device.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o device.o ../arduino/device.cpp
 
 gadget.o: ../arduino/gadget.cpp ../arduino/gadget.h \
 		../arduino/device.h \
-		../arduino/general/switch.h \
-		../arduino/programmer/port.h \
-		../arduino/programmer/programmer.h \
-		../arduino/devices/robot.h \
-		../arduino/gadgets/input/sensors/ultrasonicsensor.h \
-		../arduino/gadgets/input/sensor.h \
-		../arduino/inputgadget.h \
-		../arduino/general/config.h \
-		../arduino/gadgets/output/chassis.h \
-		../arduino/outputgadget.h \
-		../arduino/gadgets/output/motor.h
+		../arduino/general/meta.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o gadget.o ../arduino/gadget.cpp
 
 inputgadget.o: ../arduino/inputgadget.cpp ../arduino/inputgadget.h \
 		../arduino/gadget.h \
 		../arduino/device.h \
-		../arduino/general/switch.h \
-		../arduino/programmer/port.h \
-		../arduino/programmer/programmer.h \
-		../arduino/devices/robot.h \
-		../arduino/gadgets/input/sensors/ultrasonicsensor.h \
-		../arduino/gadgets/input/sensor.h \
-		../arduino/general/config.h \
-		../arduino/gadgets/output/chassis.h \
-		../arduino/outputgadget.h \
-		../arduino/gadgets/output/motor.h
+		../arduino/general/meta.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o inputgadget.o ../arduino/inputgadget.cpp
 
 outputgadget.o: ../arduino/outputgadget.cpp ../arduino/outputgadget.h \
 		../arduino/gadget.h \
 		../arduino/device.h \
-		../arduino/general/switch.h \
-		../arduino/programmer/port.h \
-		../arduino/programmer/programmer.h \
-		../arduino/devices/robot.h \
-		../arduino/gadgets/input/sensors/ultrasonicsensor.h \
-		../arduino/gadgets/input/sensor.h \
-		../arduino/inputgadget.h \
-		../arduino/general/config.h \
-		../arduino/gadgets/output/chassis.h \
-		../arduino/gadgets/output/motor.h
+		../arduino/general/meta.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o outputgadget.o ../arduino/outputgadget.cpp
 
 iogadget.o: ../arduino/iogadget.cpp ../arduino/iogadget.h \
 		../arduino/inputgadget.h \
 		../arduino/gadget.h \
 		../arduino/device.h \
-		../arduino/general/switch.h \
-		../arduino/programmer/port.h \
-		../arduino/programmer/programmer.h \
-		../arduino/devices/robot.h \
-		../arduino/gadgets/input/sensors/ultrasonicsensor.h \
-		../arduino/gadgets/input/sensor.h \
-		../arduino/general/config.h \
-		../arduino/gadgets/output/chassis.h \
-		../arduino/outputgadget.h \
-		../arduino/gadgets/output/motor.h
+		../arduino/general/meta.h \
+		../arduino/outputgadget.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o iogadget.o ../arduino/iogadget.cpp
 
 programmer.o: ../arduino/programmer/programmer.cpp ../arduino/programmer/programmer.h \
+		../arduino/general/meta.h \
 		../arduino/device.h \
-		../arduino/general/switch.h \
 		../arduino/devices/robot.h \
 		../arduino/gadgets/input/sensors/ultrasonicsensor.h \
 		../arduino/gadgets/input/sensor.h \
 		../arduino/inputgadget.h \
 		../arduino/gadget.h \
-		../arduino/programmer/port.h \
 		../arduino/general/config.h \
-		../arduino/gadgets/output/chassis.h \
-		../arduino/outputgadget.h \
-		../arduino/gadgets/output/motor.h
+		../arduino/gadgets/output/motor.h \
+		../arduino/outputgadget.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o programmer.o ../arduino/programmer/programmer.cpp
 
 robot.o: ../arduino/devices/robot.cpp ../arduino/devices/robot.h \
 		../arduino/device.h \
-		../arduino/general/switch.h \
 		../arduino/gadgets/input/sensors/ultrasonicsensor.h \
 		../arduino/gadgets/input/sensor.h \
 		../arduino/inputgadget.h \
 		../arduino/gadget.h \
-		../arduino/programmer/port.h \
-		../arduino/programmer/programmer.h \
+		../arduino/general/meta.h \
 		../arduino/general/config.h \
-		../arduino/gadgets/output/chassis.h \
+		../arduino/gadgets/output/motor.h \
 		../arduino/outputgadget.h \
-		../arduino/gadgets/output/motor.h
+		../arduino/programmer/programmer.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o robot.o ../arduino/devices/robot.cpp
 
 usb.o: ../arduino/devices/usb.cpp ../arduino/devices/usb.h \
-		../arduino/device.h \
-		../arduino/general/switch.h
+		../arduino/device.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o usb.o ../arduino/devices/usb.cpp
 
 flash.o: ../arduino/devices/flash.cpp ../arduino/devices/flash.h \
-		../arduino/device.h \
-		../arduino/general/switch.h
+		../arduino/device.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o flash.o ../arduino/devices/flash.cpp
 
 pilot.o: ../arduino/devices/pilot.cpp ../arduino/devices/pilot.h \
 		../arduino/device.h \
-		../arduino/general/switch.h \
 		../arduino/gadgets/input/sensors/infraredsensor.h \
 		../arduino/gadgets/input/sensor.h \
 		../arduino/inputgadget.h \
 		../arduino/gadget.h \
-		../arduino/programmer/port.h \
-		../arduino/programmer/programmer.h \
-		../arduino/devices/robot.h \
-		../arduino/gadgets/input/sensors/ultrasonicsensor.h \
-		../arduino/general/config.h \
-		../arduino/gadgets/output/chassis.h \
-		../arduino/outputgadget.h \
-		../arduino/gadgets/output/motor.h
+		../arduino/general/meta.h \
+		../arduino/general/config.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o pilot.o ../arduino/devices/pilot.cpp
 
 battery.o: ../arduino/gadgets/input/battery.cpp ../arduino/gadgets/input/battery.h \
@@ -818,31 +777,15 @@ battery.o: ../arduino/gadgets/input/battery.cpp ../arduino/gadgets/input/battery
 		../arduino/inputgadget.h \
 		../arduino/gadget.h \
 		../arduino/device.h \
-		../arduino/general/switch.h \
-		../arduino/programmer/port.h \
-		../arduino/programmer/programmer.h \
-		../arduino/devices/robot.h \
-		../arduino/gadgets/input/sensors/ultrasonicsensor.h \
-		../arduino/gadgets/input/sensor.h \
-		../arduino/general/config.h \
-		../arduino/gadgets/output/chassis.h \
-		../arduino/outputgadget.h \
-		../arduino/gadgets/output/motor.h
+		../arduino/general/meta.h \
+		../arduino/outputgadget.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o battery.o ../arduino/gadgets/input/battery.cpp
 
 sensor.o: ../arduino/gadgets/input/sensor.cpp ../arduino/gadgets/input/sensor.h \
 		../arduino/inputgadget.h \
 		../arduino/gadget.h \
 		../arduino/device.h \
-		../arduino/general/switch.h \
-		../arduino/programmer/port.h \
-		../arduino/programmer/programmer.h \
-		../arduino/devices/robot.h \
-		../arduino/gadgets/input/sensors/ultrasonicsensor.h \
-		../arduino/general/config.h \
-		../arduino/gadgets/output/chassis.h \
-		../arduino/outputgadget.h \
-		../arduino/gadgets/output/motor.h
+		../arduino/general/meta.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sensor.o ../arduino/gadgets/input/sensor.cpp
 
 cable.o: ../arduino/gadgets/io/cable.cpp ../arduino/gadgets/io/cable.h \
@@ -850,60 +793,24 @@ cable.o: ../arduino/gadgets/io/cable.cpp ../arduino/gadgets/io/cable.h \
 		../arduino/inputgadget.h \
 		../arduino/gadget.h \
 		../arduino/device.h \
-		../arduino/general/switch.h \
-		../arduino/programmer/port.h \
-		../arduino/programmer/programmer.h \
-		../arduino/devices/robot.h \
-		../arduino/gadgets/input/sensors/ultrasonicsensor.h \
-		../arduino/gadgets/input/sensor.h \
-		../arduino/general/config.h \
-		../arduino/gadgets/output/chassis.h \
-		../arduino/outputgadget.h \
-		../arduino/gadgets/output/motor.h
+		../arduino/general/meta.h \
+		../arduino/outputgadget.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o cable.o ../arduino/gadgets/io/cable.cpp
 
 motor.o: ../arduino/gadgets/output/motor.cpp ../arduino/gadgets/output/motor.h \
 		../arduino/outputgadget.h \
 		../arduino/gadget.h \
 		../arduino/device.h \
-		../arduino/general/switch.h \
-		../arduino/programmer/port.h \
-		../arduino/programmer/programmer.h \
-		../arduino/devices/robot.h \
-		../arduino/gadgets/input/sensors/ultrasonicsensor.h \
-		../arduino/gadgets/input/sensor.h \
-		../arduino/inputgadget.h \
-		../arduino/general/config.h \
-		../arduino/gadgets/output/chassis.h
+		../arduino/general/meta.h \
+		../arduino/general/config.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o motor.o ../arduino/gadgets/output/motor.cpp
-
-chassis.o: ../arduino/gadgets/output/chassis.cpp ../arduino/gadgets/output/chassis.h \
-		../arduino/outputgadget.h \
-		../arduino/gadget.h \
-		../arduino/device.h \
-		../arduino/general/switch.h \
-		../arduino/programmer/port.h \
-		../arduino/programmer/programmer.h \
-		../arduino/devices/robot.h \
-		../arduino/gadgets/input/sensors/ultrasonicsensor.h \
-		../arduino/gadgets/input/sensor.h \
-		../arduino/inputgadget.h \
-		../arduino/general/config.h \
-		../arduino/gadgets/output/motor.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o chassis.o ../arduino/gadgets/output/chassis.cpp
 
 ultrasonicsensor.o: ../arduino/gadgets/input/sensors/ultrasonicsensor.cpp ../arduino/gadgets/input/sensors/ultrasonicsensor.h \
 		../arduino/gadgets/input/sensor.h \
 		../arduino/inputgadget.h \
 		../arduino/gadget.h \
 		../arduino/device.h \
-		../arduino/general/switch.h \
-		../arduino/programmer/port.h \
-		../arduino/programmer/programmer.h \
-		../arduino/devices/robot.h \
-		../arduino/gadgets/output/chassis.h \
-		../arduino/outputgadget.h \
-		../arduino/gadgets/output/motor.h \
+		../arduino/general/meta.h \
 		../arduino/general/config.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ultrasonicsensor.o ../arduino/gadgets/input/sensors/ultrasonicsensor.cpp
 
@@ -912,50 +819,55 @@ infraredsensor.o: ../arduino/gadgets/input/sensors/infraredsensor.cpp ../arduino
 		../arduino/inputgadget.h \
 		../arduino/gadget.h \
 		../arduino/device.h \
-		../arduino/general/switch.h \
-		../arduino/programmer/port.h \
-		../arduino/programmer/programmer.h \
-		../arduino/devices/robot.h \
-		../arduino/gadgets/input/sensors/ultrasonicsensor.h \
-		../arduino/general/config.h \
-		../arduino/gadgets/output/chassis.h \
-		../arduino/outputgadget.h \
-		../arduino/gadgets/output/motor.h
+		../arduino/general/meta.h \
+		../arduino/general/config.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o infraredsensor.o ../arduino/gadgets/input/sensors/infraredsensor.cpp
 
-switch.o: ../arduino/general/switch.cpp ../arduino/general/switch.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o switch.o ../arduino/general/switch.cpp
-
-port.o: ../arduino/programmer/port.cpp ../arduino/programmer/port.h \
-		../arduino/programmer/programmer.h \
-		../arduino/device.h \
-		../arduino/general/switch.h \
-		../arduino/devices/robot.h \
-		../arduino/gadgets/input/sensors/ultrasonicsensor.h \
-		../arduino/gadgets/input/sensor.h \
-		../arduino/inputgadget.h \
-		../arduino/gadget.h \
-		../arduino/general/config.h \
-		../arduino/gadgets/output/chassis.h \
-		../arduino/outputgadget.h \
-		../arduino/gadgets/output/motor.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o port.o ../arduino/programmer/port.cpp
+port.o: ../arduino/general/port.cpp ../arduino/general/port.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o port.o ../arduino/general/port.cpp
 
 kernel.o: ../arduino/programmer/kernel.cpp ../arduino/programmer/kernel.h \
+		../arduino/general/meta.h \
 		../arduino/programmer/programmer.h \
 		../arduino/device.h \
-		../arduino/general/switch.h \
 		../arduino/devices/robot.h \
 		../arduino/gadgets/input/sensors/ultrasonicsensor.h \
 		../arduino/gadgets/input/sensor.h \
 		../arduino/inputgadget.h \
 		../arduino/gadget.h \
-		../arduino/programmer/port.h \
 		../arduino/general/config.h \
-		../arduino/gadgets/output/chassis.h \
+		../arduino/gadgets/output/motor.h \
 		../arduino/outputgadget.h \
-		../arduino/gadgets/output/motor.h
+		../arduino/programmer/programcontainer.h \
+		../arduino/programmer/program.h \
+		../arduino/programmer/driver.h \
+		../arduino/programmer/commandtable.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o kernel.o ../arduino/programmer/kernel.cpp
+
+meta.o: ../arduino/general/meta.cpp ../arduino/general/meta.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o meta.o ../arduino/general/meta.cpp
+
+stropr.o: ../arduino/general/stropr.cpp ../arduino/general/stropr.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o stropr.o ../arduino/general/stropr.cpp
+
+program.o: ../arduino/programmer/program.cpp ../arduino/programmer/program.h \
+		../arduino/general/meta.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o program.o ../arduino/programmer/program.cpp
+
+driver.o: ../arduino/programmer/driver.cpp ../arduino/programmer/driver.h \
+		../arduino/programmer/program.h \
+		../arduino/general/meta.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o driver.o ../arduino/programmer/driver.cpp
+
+programcontainer.o: ../arduino/programmer/programcontainer.cpp ../arduino/programmer/programcontainer.h \
+		../arduino/programmer/program.h \
+		../arduino/general/meta.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o programcontainer.o ../arduino/programmer/programcontainer.cpp
+
+commandtable.o: ../arduino/programmer/commandtable.cpp ../arduino/programmer/commandtable.h \
+		../arduino/programmer/program.h \
+		../arduino/general/meta.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o commandtable.o ../arduino/programmer/commandtable.cpp
 
 ####### Install
 
