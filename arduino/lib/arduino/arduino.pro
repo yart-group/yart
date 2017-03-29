@@ -72,7 +72,8 @@ HEADERS += \
     programmer/program.h \
     programmer/driver.h \
     programmer/programcontainer.h \
-    programmer/commandtable.h
+    programmer/commandtable.h \
+    libarduino.h
 unix {
     target.path = /usr/lib
     INSTALLS += target
