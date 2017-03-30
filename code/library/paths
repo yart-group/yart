@@ -1,0 +1,14 @@
+SRC='src/src'
+BUILD='unknown'
+STATIC='static'
+TARBALL='tarball'
+HEADER='libarduino.h'
+LIBRARY='libarduino.a'
+SOURCE='libarduino.cpp'
+TARBALL_NAME='libarduino.tgz'
+
+STATIC_HEADER=$STATIC/$HEADER
+STATIC_LIBRARY=$STATIC/$LIBRARY
+
+TARBALL_HEADER=$TARBALL/$HEADER
+TARBALL_SOURCE=$TARBALL/$SOURCE
