@@ -6,11 +6,12 @@
 #include "devices/robot.h"
 #include "gadget.h"
 
+class Kernel;
+
 class Programmer : public Device
 {
   public:
     friend class Kernel;
-    class Kernel;
 
     Programmer();
 

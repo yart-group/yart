@@ -13,7 +13,7 @@ bool ProgramContainer::add(Program * program)
   if(!program) return false;
 
   for(int i=0; i<_loads; i++)
-    if(_table[i] == program || strcmp(_table[i]->meta.name, program->meta.name))
+    if(_table[i] == program || !strcmp(_table[i]->meta.name, program->meta.name))
       return false;
 
   _table[_loads] = program;
@@ -40,7 +40,7 @@ bool ProgramContainer::remove(Program * program)
 bool ProgramContainer::remove(Meta meta)
 {
   for(int i=0; i<_loads; i++){
-    if(_table[i]->meta.type == meta.type && strcmp(_table[i]->meta.name, meta.name)){
+    if(_table[i]->meta.type == meta.type && !strcmp(_table[i]->meta.name, meta.name)){
       for(; i<_loads-1; i++)
         _table[i] = _table[i-1];
       _table[i] = nullptr;
@@ -65,7 +65,7 @@ bool ProgramContainer::check(Program * program)
 bool ProgramContainer::check(Meta meta)
 {
   for(int i=0; i<_loads; i++)
-    if(_table[i]->meta.type == meta.type && strcmp(_table[i]->meta.name, meta.name))
+    if(_table[i]->meta.type == meta.type && !strcmp(_table[i]->meta.name, meta.name))
       return true;
 
   return false;
@@ -74,7 +74,7 @@ bool ProgramContainer::check(Meta meta)
 Program * ProgramContainer::get(Meta meta)
 {
   for(int i=0; i<_loads; i++)
-    if(_table[i]->meta.type == meta.type && strcmp(_table[i]->meta.name, meta.name))
+    if(_table[i]->meta.type == meta.type && !strcmp(_table[i]->meta.name, meta.name))
       return _table[i];
 
   return nullptr;

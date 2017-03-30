@@ -395,11 +395,12 @@ class Robot : public Device
 //kappa "devices/robot.h"
 //kappa "gadget.h"
 
+class Kernel;
+
 class Programmer : public Device
 {
   public:
     friend class Kernel;
-    class Kernel;
 
     Programmer();
 
@@ -440,7 +441,7 @@ class Kernel;
 class Program
 {
   public:
-    Program() : meta(Meta::Program), lastMsg(nullptr) {}
+    Program() : lastMsg(nullptr), meta(Meta::Program) {}
 
     virtual int main(int argc = 0, char const * const * argv = 0) = 0;
     bool pair(Kernel * kernel);
@@ -448,12 +449,12 @@ class Program
     bool paired();
 
     char * lastMsg;
-    virtual int controller(int argc, char const * const * argv) {}
-    virtual bool install() {}
-    virtual bool uninstall() {}
+    virtual int controller(int /*argc*/, char const * const * /*argv*/) { return -1; }
+    virtual bool install() { return false; }
+    virtual bool uninstall() { return false; }
 
     Meta meta;
-  private:
+  protected:
     Kernel * _kernel;
 
 };
@@ -531,7 +532,7 @@ class CommandTable
 //kappa "driver.h"
 //kappa "commandtable.h"
 
-class Programmer::Kernel
+class Kernel
 {
   public:
     friend class Program;
@@ -548,6 +549,7 @@ class Programmer::Kernel
     bool stop(Meta meta);
     int command(const char * cmd);
 
+    CommandTable _commandTable;
   private:
     bool _enabled;
     Programmer * _programmer;
@@ -555,7 +557,7 @@ class Programmer::Kernel
     ProgramContainer _drivers;
     ProgramContainer _startedPrograms;
     ProgramContainer _startedDrivers;
-    CommandTable _commandTable;
+
 };
 
 #endif // KERNEL_H

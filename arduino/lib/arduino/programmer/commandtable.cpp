@@ -1,5 +1,6 @@
 #include "commandtable.h"
 
+
 CommandTable::CommandTable() : _commands(0)
 {
   _command = new const char * [30];
@@ -16,7 +17,7 @@ bool CommandTable::add(const char *cmd, Program *driver)
   if(!cmd || !driver) return false;
 
   for(int i=0; i<_commands; i++)
-    if(_driver[i] == driver && strcmp(_command[i], cmd))
+    if(_driver[i] == driver && !strcmp(_command[i], cmd))
       return false;
 
   _command[_commands] = cmd;
@@ -30,7 +31,7 @@ bool CommandTable::del(const char *cmd, Program *driver)
   if(!cmd || !driver) return false;
 
   for(int i=0; i<_commands; i++)
-    if(_driver[i] == driver && strcmp(_command[i], cmd)){
+    if(_driver[i] == driver && !strcmp(_command[i], cmd)){
       for(; i<_commands-1; i++){
         _command[i] = _command[i+1];
         _driver[i] = _driver[i+1];
@@ -49,10 +50,8 @@ int CommandTable::exec(int argc, char const * const * argv)
 {
   int exit_code = -1;
 
-  int const a = 1;
-
   for(int i=0; i<_commands; i++){
-    if(strcmp(_command[i], argv[0])){
+    if(!strcmp(_command[i], argv[0])){
       exit_code = _driver[i]->controller(argc, argv);
       if(exit_code != -1) return exit_code;
     }

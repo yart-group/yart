@@ -2,30 +2,31 @@
 
 #include <cstring>
 
-bool Programmer::Kernel::run()
+bool Kernel::run()
 {
   if(_enabled) return false;
   _enabled = true;
   return true;
 }
-bool Programmer::Kernel::quit()
+bool Kernel::quit()
 {
   if(!_enabled) return false;
   _enabled = false;
   return true;
 }
-bool Programmer::Kernel::load(Program *program)
+bool Kernel::load(Program *program)
 {
   if(!_enabled) return false;
   if(!program) return false;
+
+  program->pair(this);
 
   if(program->meta.type == Meta::Program)
     return _programs.add(program);
   else
     return _drivers.add(program);
-
 }
-bool Programmer::Kernel::unload(Meta meta)
+bool Kernel::unload(Meta meta)
 {
   if(!_enabled) return false;
 
@@ -35,7 +36,7 @@ bool Programmer::Kernel::unload(Meta meta)
     return _drivers.remove(meta);
 
 }
-bool Programmer::Kernel::start(Meta meta)
+bool Kernel::start(Meta meta)
 {
   if(!_enabled) return false;
 
@@ -53,7 +54,7 @@ bool Programmer::Kernel::start(Meta meta)
 
   return ! ( program -> main() );
 }
-bool Programmer::Kernel::stop(Meta meta)
+bool Kernel::stop(Meta meta)
 {
   if(!_enabled) return false;
 
@@ -75,7 +76,7 @@ bool Programmer::Kernel::stop(Meta meta)
 
   return true;
 }
-int Programmer::Kernel::command(const char *cmd)
+int Kernel::command(const char *cmd)
 {
   if(!_enabled) return false;
   if(!cmd) return false;

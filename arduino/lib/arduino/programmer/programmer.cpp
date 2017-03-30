@@ -21,7 +21,7 @@ bool Programmer::plug(Gadget *gadget)
   if(!gadget) return false;
 
   for(int i=0; i<_gadgets; i++)
-    if(_gadget[i] == gadget || strcmp(_gadget[i]->meta.name, gadget->meta.name))
+    if(_gadget[i] == gadget || !strcmp(_gadget[i]->meta.name, gadget->meta.name))
        return false;
 
   _gadget[_gadgets] = gadget;
@@ -63,7 +63,7 @@ bool Programmer::unplug()
 bool Programmer::unplug(Meta meta)
 {
   for(int i=0; i<_gadgets; i++){
-    if(_gadget[i]->meta.type == meta.type && strcmp(_gadget[i]->meta.name, meta.name)){
+    if(_gadget[i]->meta.type == meta.type && !strcmp(_gadget[i]->meta.name, meta.name)){
       for(; i<_gadgets-1; i++){
         _gadget[i] = _gadget[i+1];
       }
@@ -98,7 +98,7 @@ bool Programmer::plugged(Robot *robot)
 bool Programmer::plugged(Meta meta)
 {
   for(int i=0; i<_gadgets; i++)
-    if(_gadget[i]->meta.type == meta.type && strcmp(_gadget[i]->meta.name, meta.name))
+    if(_gadget[i]->meta.type == meta.type && !strcmp(_gadget[i]->meta.name, meta.name))
        return true;
 
   return false;
@@ -107,7 +107,7 @@ bool Programmer::plugged(Meta meta)
 Gadget * Programmer::get(Meta meta)
 {
   for(int i=0; i<_gadgets; i++)
-    if(_gadget[i]->meta.type == meta.type && strcmp(_gadget[i]->meta.name, meta.name))
+    if(_gadget[i]->meta.type == meta.type && !strcmp(_gadget[i]->meta.name, meta.name))
        return _gadget[i];
 
   return nullptr;

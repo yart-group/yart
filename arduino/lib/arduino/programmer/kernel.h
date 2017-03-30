@@ -7,7 +7,7 @@
 #include "driver.h"
 #include "commandtable.h"
 
-class Programmer::Kernel
+class Kernel
 {
   public:
     friend class Program;
@@ -24,6 +24,7 @@ class Programmer::Kernel
     bool stop(Meta meta);
     int command(const char * cmd);
 
+    CommandTable _commandTable;
   private:
     bool _enabled;
     Programmer * _programmer;
@@ -31,7 +32,7 @@ class Programmer::Kernel
     ProgramContainer _drivers;
     ProgramContainer _startedPrograms;
     ProgramContainer _startedDrivers;
-    CommandTable _commandTable;
+
 };
 
 #endif // KERNEL_H
