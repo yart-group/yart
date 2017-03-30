@@ -32,6 +32,10 @@ GOOFY_AS_SRCS =
 ### Path to where the your project's libraries are stored.
 USER_LIB_PATH    :=  $(PROJECT_DIR)/arduino/lib/build-arduino-Desktop_Qt_5_8_0_GCC_64bit-Debug
 
+### ARDUINO_LIBS
+### Path to where arduino's libraries are stored.
+ARDUINO_LIBS = makeblock/src
+
 ### BOARD_TAG
 ### It must be set to the board you are currently using. (i.e uno, mega2560, etc.)
 BOARD_TAG         = uno
