@@ -762,12 +762,12 @@ endif
 ########################################################################
 # Local sources
 
-LOCAL_C_SRCS    ?= $(wildcard *.c $(GOOFY_C_SRCS))
-LOCAL_CPP_SRCS  ?= $(wildcard *.cpp $(GOOFY_CPP_SRCS))
-LOCAL_CC_SRCS   ?= $(wildcard *.cc $(GOOFY_CC_SRCS))
-LOCAL_PDE_SRCS  ?= $(wildcard *.pde $(GOOFY_PDE_SRCS))
-LOCAL_INO_SRCS  ?= $(wildcard *.ino $(GOOFY_INO_SRCS))
-LOCAL_AS_SRCS   ?= $(wildcard *.S $(GOOFY_AS_SRCS))
+LOCAL_C_SRCS    ?= $(wildcard $(GOOFY_C_SRCS))
+LOCAL_CPP_SRCS  ?= $(wildcard $(GOOFY_CPP_SRCS))
+LOCAL_CC_SRCS   ?= $(wildcard $(GOOFY_CC_SRCS))
+LOCAL_PDE_SRCS  ?= $(wildcard $(GOOFY_PDE_SRCS))
+LOCAL_INO_SRCS  ?= $(wildcard $(GOOFY_INO_SRCS))
+LOCAL_AS_SRCS   ?= $(wildcard $(GOOFY_AS_SRCS))
 LOCAL_SRCS      = $(LOCAL_C_SRCS)   $(LOCAL_CPP_SRCS) \
 		$(LOCAL_CC_SRCS)   $(LOCAL_PDE_SRCS) \
 		$(LOCAL_INO_SRCS) $(LOCAL_AS_SRCS)
