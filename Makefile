@@ -10,7 +10,7 @@ PROJECT_DIR       = .
 
 ### ARDMK_DIR
 ### Path to the Arduino-Makefile directory.
-ARDMK_DIR         = $(PROJECT_DIR)/arduino\ makefile
+ARDMK_DIR         = $(PROJECT_DIR)/arduino-makefile
 
 ### ARDUINO_DIR
 ### Path to the Arduino application and resources directory.
