@@ -18,7 +18,6 @@ int Cli::main(int /*argc*/, const char * const */*argv*/)
 
   while(1){
     cout << "CycuX OS: ";
-    //cin >> buffer;
     cin.getline(buffer, 100);
 
     if(!strcmp(buffer, "quit"))
@@ -72,6 +71,8 @@ int main()
   Echo * echo = new Echo;
 
   Kernel * kernel = new Kernel;
+
+  cout << "kernel = " << kernel << endl;
 
   cout << "run(): " << kernel->run() << endl;
   cout << "load(): " << kernel->load(cli) << endl;

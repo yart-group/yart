@@ -441,7 +441,7 @@ class Kernel;
 class Program
 {
   public:
-    Program() : lastMsg(nullptr), meta(Meta::Program) {}
+    Program() : lastMsg(nullptr), meta(Meta::Program), _kernel(nullptr) {}
 
     virtual int main(int argc = 0, char const * const * argv = 0) = 0;
     bool pair(Kernel * kernel);
