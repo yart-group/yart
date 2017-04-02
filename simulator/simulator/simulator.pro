@@ -29,3 +29,10 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
+
+unix:!macx: LIBS += -L$$PWD/../../code/library/src/build-arduino-Desktop_Qt_5_8_0_MinGW_32bit-Debug/debug/ -larduino
+
+INCLUDEPATH += $$PWD/../../code/library/static
+DEPENDPATH += $$PWD/../../code/library/src/build-arduino-Desktop_Qt_5_8_0_MinGW_32bit-Debug/debug
+
+unix:!macx: PRE_TARGETDEPS += $$PWD/../../code/library/src/build-arduino-Desktop_Qt_5_8_0_MinGW_32bit-Debug/debug/libarduino.a

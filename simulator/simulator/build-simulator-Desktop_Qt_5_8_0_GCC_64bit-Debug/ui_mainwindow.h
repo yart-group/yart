@@ -42,13 +42,13 @@ public:
     QPushButton *exitButton;
     QWidget *mainPage;
     QGridLayout *gridLayout_3;
-    QTabWidget *tabWidget;
-    QWidget *tab;
-    QWidget *tab_2;
-    QTabWidget *tabWidget_2;
-    QWidget *tab_3;
-    QWidget *tab_4;
-    QFrame *frame;
+    QTabWidget *uppperTabs;
+    QWidget *tab001;
+    QWidget *tab002;
+    QTabWidget *lowerTabs;
+    QWidget *tab003;
+    QWidget *tab004;
+    QFrame *workspace;
     QMenuBar *menuBar;
     QStatusBar *statusBar;
     QToolBar *toolBar;
@@ -109,43 +109,44 @@ public:
         gridLayout_3->setSpacing(6);
         gridLayout_3->setContentsMargins(11, 11, 11, 11);
         gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
-        tabWidget = new QTabWidget(mainPage);
-        tabWidget->setObjectName(QStringLiteral("tabWidget"));
+        uppperTabs = new QTabWidget(mainPage);
+        uppperTabs->setObjectName(QStringLiteral("uppperTabs"));
         QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Expanding);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(tabWidget->sizePolicy().hasHeightForWidth());
-        tabWidget->setSizePolicy(sizePolicy1);
-        tabWidget->setMovable(true);
-        tab = new QWidget();
-        tab->setObjectName(QStringLiteral("tab"));
-        tabWidget->addTab(tab, QString());
-        tab_2 = new QWidget();
-        tab_2->setObjectName(QStringLiteral("tab_2"));
-        tabWidget->addTab(tab_2, QString());
+        sizePolicy1.setHeightForWidth(uppperTabs->sizePolicy().hasHeightForWidth());
+        uppperTabs->setSizePolicy(sizePolicy1);
+        uppperTabs->setTabShape(QTabWidget::Rounded);
+        uppperTabs->setMovable(true);
+        tab001 = new QWidget();
+        tab001->setObjectName(QStringLiteral("tab001"));
+        uppperTabs->addTab(tab001, QString());
+        tab002 = new QWidget();
+        tab002->setObjectName(QStringLiteral("tab002"));
+        uppperTabs->addTab(tab002, QString());
 
-        gridLayout_3->addWidget(tabWidget, 0, 0, 1, 1);
+        gridLayout_3->addWidget(uppperTabs, 0, 0, 1, 1);
 
-        tabWidget_2 = new QTabWidget(mainPage);
-        tabWidget_2->setObjectName(QStringLiteral("tabWidget_2"));
-        sizePolicy1.setHeightForWidth(tabWidget_2->sizePolicy().hasHeightForWidth());
-        tabWidget_2->setSizePolicy(sizePolicy1);
-        tabWidget_2->setMovable(true);
-        tab_3 = new QWidget();
-        tab_3->setObjectName(QStringLiteral("tab_3"));
-        tabWidget_2->addTab(tab_3, QString());
-        tab_4 = new QWidget();
-        tab_4->setObjectName(QStringLiteral("tab_4"));
-        tabWidget_2->addTab(tab_4, QString());
+        lowerTabs = new QTabWidget(mainPage);
+        lowerTabs->setObjectName(QStringLiteral("lowerTabs"));
+        sizePolicy1.setHeightForWidth(lowerTabs->sizePolicy().hasHeightForWidth());
+        lowerTabs->setSizePolicy(sizePolicy1);
+        lowerTabs->setMovable(true);
+        tab003 = new QWidget();
+        tab003->setObjectName(QStringLiteral("tab003"));
+        lowerTabs->addTab(tab003, QString());
+        tab004 = new QWidget();
+        tab004->setObjectName(QStringLiteral("tab004"));
+        lowerTabs->addTab(tab004, QString());
 
-        gridLayout_3->addWidget(tabWidget_2, 1, 0, 1, 1);
+        gridLayout_3->addWidget(lowerTabs, 1, 0, 1, 1);
 
-        frame = new QFrame(mainPage);
-        frame->setObjectName(QStringLiteral("frame"));
-        frame->setFrameShape(QFrame::StyledPanel);
-        frame->setFrameShadow(QFrame::Raised);
+        workspace = new QFrame(mainPage);
+        workspace->setObjectName(QStringLiteral("workspace"));
+        workspace->setFrameShape(QFrame::StyledPanel);
+        workspace->setFrameShadow(QFrame::Raised);
 
-        gridLayout_3->addWidget(frame, 0, 1, 2, 1);
+        gridLayout_3->addWidget(workspace, 0, 1, 2, 1);
 
         stackedWidget->addWidget(mainPage);
 
@@ -165,9 +166,9 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(0);
-        tabWidget->setCurrentIndex(0);
-        tabWidget_2->setCurrentIndex(0);
+        stackedWidget->setCurrentIndex(1);
+        uppperTabs->setCurrentIndex(0);
+        lowerTabs->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -179,10 +180,10 @@ public:
         logoText->setText(QApplication::translate("MainWindow", "Simulator", Q_NULLPTR));
         startButton->setText(QApplication::translate("MainWindow", "Start", Q_NULLPTR));
         exitButton->setText(QApplication::translate("MainWindow", "Exit", Q_NULLPTR));
-        tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MainWindow", "Tab 1", Q_NULLPTR));
-        tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindow", "Tab 2", Q_NULLPTR));
-        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_3), QApplication::translate("MainWindow", "Tab 1", Q_NULLPTR));
-        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_4), QApplication::translate("MainWindow", "Tab 2", Q_NULLPTR));
+        uppperTabs->setTabText(uppperTabs->indexOf(tab001), QApplication::translate("MainWindow", "Tab 1", Q_NULLPTR));
+        uppperTabs->setTabText(uppperTabs->indexOf(tab002), QApplication::translate("MainWindow", "Tab 2", Q_NULLPTR));
+        lowerTabs->setTabText(lowerTabs->indexOf(tab003), QApplication::translate("MainWindow", "Tab 3", Q_NULLPTR));
+        lowerTabs->setTabText(lowerTabs->indexOf(tab004), QApplication::translate("MainWindow", "Tab 4", Q_NULLPTR));
         toolBar->setWindowTitle(QApplication::translate("MainWindow", "toolBar", Q_NULLPTR));
     } // retranslateUi
 
