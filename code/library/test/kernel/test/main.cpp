@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cstring>
-#include "../../lib/arduino/libarduino.h"
+#include "../../../static/libarduino.h"
 using namespace std;
 
 class Cli : public Program
