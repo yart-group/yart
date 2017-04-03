@@ -12,13 +12,3 @@ MainWindow::~MainWindow()
 {
   delete ui;
 }
-
-void MainWindow::on_startButton_clicked()
-{
-  ui->stackedWidget->setCurrentIndex(1);
-}
-
-void MainWindow::on_exitButton_clicked()
-{
-  QApplication::quit();
-}
