@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<XMI xmlns:UML="http://schema.omg.org/spec/UML/1.3" timestamp="2017-04-03T08:55:18" verified="false" xmi.version="1.2">
+<XMI xmlns:UML="http://schema.omg.org/spec/UML/1.3" timestamp="2017-04-03T08:57:49" verified="false" xmi.version="1.2">
  <XMI.header>
   <XMI.documentation>
    <XMI.exporter>umbrello uml modeller http://umbrello.kde.org</XMI.exporter>
@@ -56,7 +56,7 @@
         <UML:Attribute name="_name" visibility="private" xmi.id="3bIT0TKGYcBA" type="vzn9ILTrYqfG" isSpecification="false"/>
         <UML:Attribute name="_id" visibility="private" xmi.id="eDsEnoQekRXj" type="AhAoTbyKOteX" isSpecification="false"/>
         <UML:Attribute name="_parts" visibility="private" xmi.id="fXtpYFwgTfCy" type="e1V31BRHUhZ6" isSpecification="false"/>
-        <UML:Attribute name="_configuringPart" visibility="private" xmi.id="1gBPjNWDxkT9" initialValue="nullprt" type="vt3IkalhV28n" isSpecification="false"/>
+        <UML:Attribute name="configuringPart" visibility="public" xmi.id="1gBPjNWDxkT9" initialValue="nullprt" type="vt3IkalhV28n" isSpecification="false"/>
         <UML:Operation isAbstract="false" isQuery="false" name="getId" isLeaf="false" isRoot="false" visibility="public" xmi.id="cam7HMx8FZsj" isSpecification="false">
          <UML:BehavioralFeature.parameter>
           <UML:Parameter kind="return" xmi.id="0IrmxnqQVD9h" type="AhAoTbyKOteX"/>
@@ -304,10 +304,10 @@
      </listitem>
      <listitem id="olAqeN40gQtU" type="813" open="1"/>
      <listitem id="WKUzfTUM6ZL1" type="813" open="1">
-      <listitem id="1gBPjNWDxkT9" type="814" open="0"/>
       <listitem id="eDsEnoQekRXj" type="814" open="0"/>
       <listitem id="3bIT0TKGYcBA" type="814" open="0"/>
       <listitem id="fXtpYFwgTfCy" type="814" open="0"/>
+      <listitem id="1gBPjNWDxkT9" type="814" open="0"/>
       <listitem id="cam7HMx8FZsj" type="815" open="0"/>
       <listitem id="2glDtAQvM4We" type="815" open="0"/>
       <listitem id="o1Qvi3cyN1jO" type="815" open="0"/>
