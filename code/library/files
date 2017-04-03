@@ -1,4 +1,5 @@
 add general/config
+add general/global
 add general/port
 add general/meta
 add logger

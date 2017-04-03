@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cstring>
 #include "../../../static/libarduino.h"
 using namespace std;
 

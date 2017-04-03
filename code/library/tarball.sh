@@ -27,6 +27,8 @@ echo -e "\033[32m transforming #include's \033[00m..."
 sed -i -e 's/#include/\/\/kappa/g' $TARBALL_HEADER
 sed -i -e 's/#include/\/\/kappa/g' $TARBALL_SOURCE
 
+sed -i -e 's/\/\/kappa <cstring>/#include <cstring>/g' $STATIC_HEADER
+
 echo ""
 echo -e "\033[32m adding to tarball \033[00m..."
 

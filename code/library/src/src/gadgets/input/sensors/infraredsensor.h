@@ -18,7 +18,7 @@ class InfraredSensor : public Sensor
 
   private:
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
-    MeInfraredSensor * _sensor;
+    MeInfraredReceiver * _sensor;
 #else
     int * _sensor;
 #endif

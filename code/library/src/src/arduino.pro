@@ -64,7 +64,8 @@ SOURCES += \
     motherboard/program.cpp \
     motherboard/programcontainer.cpp \
     debugmanager.cpp \
-    logger.cpp
+    logger.cpp \
+    general/global.cpp
 
 HEADERS += \
     device.h \
@@ -104,7 +105,8 @@ HEADERS += \
     motherboard/program.h \
     motherboard/programcontainer.h \
     debugmanager.h \
-    logger.h
+    logger.h \
+    general/global.h
 
 unix {
     target.path = /usr/lib

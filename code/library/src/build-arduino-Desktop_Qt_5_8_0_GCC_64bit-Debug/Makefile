@@ -81,7 +81,8 @@ SOURCES       = ../src/device.cpp \
 		../src/motherboard/program.cpp \
 		../src/motherboard/programcontainer.cpp \
 		../src/debugmanager.cpp \
-		../src/logger.cpp 
+		../src/logger.cpp \
+		../src/general/global.cpp 
 OBJECTS       = device.o \
 		gadget.o \
 		inputgadget.o \
@@ -118,7 +119,8 @@ OBJECTS       = device.o \
 		program.o \
 		programcontainer.o \
 		debugmanager.o \
-		logger.o
+		logger.o \
+		global.o
 DIST          = /data/user/robert/Database/programs/Qt/5.8/gcc_64/mkspecs/features/spec_pre.prf \
 		/data/user/robert/Database/programs/Qt/5.8/gcc_64/mkspecs/common/unix.conf \
 		/data/user/robert/Database/programs/Qt/5.8/gcc_64/mkspecs/common/linux.conf \
@@ -322,7 +324,8 @@ DIST          = /data/user/robert/Database/programs/Qt/5.8/gcc_64/mkspecs/featur
 		motherboard/program.h \
 		motherboard/programcontainer.h \
 		debugmanager.h \
-		logger.h ../src/device.cpp \
+		logger.h \
+		general/global.h ../src/device.cpp \
 		../src/gadget.cpp \
 		../src/inputgadget.cpp \
 		../src/outputgadget.cpp \
@@ -358,7 +361,8 @@ DIST          = /data/user/robert/Database/programs/Qt/5.8/gcc_64/mkspecs/featur
 		../src/motherboard/program.cpp \
 		../src/motherboard/programcontainer.cpp \
 		../src/debugmanager.cpp \
-		../src/logger.cpp
+		../src/logger.cpp \
+		../src/general/global.cpp
 QMAKE_TARGET  = arduino
 DESTDIR       = 
 TARGET        = libarduino.a
@@ -1089,6 +1093,10 @@ debugmanager.o: ../src/debugmanager.cpp ../src/debugmanager.h \
 logger.o: ../src/logger.cpp ../src/logger.h \
 		../src/general/meta.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o logger.o ../src/logger.cpp
+
+global.o: ../src/general/global.cpp ../src/general/global.h \
+		../src/general/config.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o global.o ../src/general/global.cpp
 
 ####### Install
 

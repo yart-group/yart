@@ -2,8 +2,9 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-
-#define COMPILE_FOR_ARDUINO_UPLOAD false
+#ifndef COMPILE_FOR_ARDUINO_UPLOAD
+  #define COMPILE_FOR_ARDUINO_UPLOAD false
+#endif
 
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
   #warning use it only as with .tgz version of library
@@ -11,6 +12,22 @@
 #endif
 
 #endif // CONFIG_H
+#ifndef GLOBAL_H
+#define GLOBAL_H
+
+//kappa "config.h"
+
+#if COMPILE_FOR_ARDUINO_UPLOAD == false
+  #include <cstring>
+#else
+
+  #define nullptr 0
+
+  char * strcpy(char *a, const char *b);
+  int strcmp(const char * a, const char * b);
+#endif
+
+#endif // GLOBAL_H
 #ifndef PORT_H
 #define PORT_H
 
@@ -37,7 +54,7 @@ class Port
 #ifndef META_H
 #define META_H
 
-//kappa <cstring>
+#include <cstring>
 
 class Meta
 {
@@ -49,8 +66,9 @@ class Meta
       InputGadget,
       OutputGadget,
       IOGadget,
-      Program = 10,
+      Program,
       Driver,
+      Logger
     };
 
     Meta(const char * name_ = "unknown", int type_ = Unknown) : name(new char[20]), type(type_) {
@@ -74,6 +92,8 @@ class Meta
 class Logger
 {
   public:
+    Logger() : meta(Meta::Logger) {}
+
     Meta meta;
 
     virtual Logger & operator << (const char * data) = 0;
@@ -299,7 +319,7 @@ class InfraredSensor : public Sensor
 
   private:
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
-    MeInfraredSensor * _sensor;
+    MeInfraredReceiver * _sensor;
 #else
     int * _sensor;
 #endif

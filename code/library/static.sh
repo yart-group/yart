@@ -18,6 +18,7 @@ echo ""
 echo -e "\033[32m transforming #include's \033[00m..."
 
 sed -i -e 's/#include/\/\/kappa/g' $STATIC_HEADER
+sed -i -e 's/\/\/kappa <cstring>/#include <cstring>/g' $STATIC_HEADER
 
 echo ""
 echo -e "\033[32m done\033[00m!"

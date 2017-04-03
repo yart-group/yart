@@ -13,7 +13,7 @@ bool InfraredSensor::reconnect()
 
   if(_sensor) delete _sensor;
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
-  _sensor = new MeInfraredSensor( port.getPort() );
+  _sensor = new MeInfraredReceiver( port.getPort() );
   _sensor->begin();
 #else
   _sensor = new int;
