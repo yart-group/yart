@@ -5,7 +5,7 @@
 #include "gadgets/input/sensors/ultrasonicsensor.h"
 #include "gadgets/output/motor.h"
 
-class Programmer;
+class Motherboard;
 
 class Robot : public Device
 {
@@ -13,12 +13,12 @@ class Robot : public Device
     Robot();
 
     bool init();
-    void powerOn();
-    void powerOff();
+    void setPowerOn();
+    void setPowerOff();
 
-    bool mount(Programmer * programmer);
+    bool mount(Motherboard * motherboard);
     bool unmount();
-    bool programmerMounted();
+    bool motherboardMounted();
 
 
   private:
@@ -26,7 +26,7 @@ class Robot : public Device
     Motor _rightMotor;
     UltrasonicSensor _ultrasonicSensor;
 
-    Programmer * _programmer;
+    Motherboard * _motherboard;
 };
 
 #endif // ROBOT_H

@@ -41,8 +41,8 @@ class Pilot : public Device
     };
 
     bool init();
-    void powerOn();
-    void powerOff();
+    void setPowerOn();
+    void setPowerOff();
 
     int getCode();
     int getLast();

@@ -15,7 +15,7 @@ class Motherboard : public Device
 
     Motherboard();
 
-    void powerOff();
+    void setPowerOff();
 
     int gadgets(){ return _gadgets; }
     bool plug(Gadget * gadget);
@@ -30,7 +30,7 @@ class Motherboard : public Device
     Gadget * get(Meta meta);
     bool load(Kernel * kernel);
     bool unload();
-    Kernel * kernel(){ if(! working()) return nullptr; return _kernel; }
+    Kernel * kernel(){ if(! isWorking()) return nullptr; return _kernel; }
 
   private:
     Kernel * _kernel;

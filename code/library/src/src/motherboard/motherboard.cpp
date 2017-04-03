@@ -10,9 +10,9 @@ Motherboard::Motherboard() :
   for(int i=0; i<10; i++) _gadget[i] = nullptr;
 }
 
-void Motherboard::powerOff()
+void Motherboard::setPowerOff()
 {
-  Device::powerOff();
+  Device::setPowerOff();
   unload();
 }
 
@@ -115,14 +115,14 @@ Gadget * Motherboard::get(Meta meta)
 
 bool Motherboard::load(Kernel *kernel)
 {
-  if(! working()) return false;
+  if(! isWorking()) return false;
   if(_kernel) return false;
   _kernel = kernel;
   return true;
 }
 bool Motherboard::unload()
 {
-  if(! working()) return false;
+  if(! isWorking()) return false;
   if(! _kernel) return false;
   _kernel = nullptr;
   return true;

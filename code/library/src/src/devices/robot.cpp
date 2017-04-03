@@ -1,7 +1,7 @@
 #include "robot.h"
-#include "programmer/programmer.h"
+#include "motherboard/motherboard.h"
 
-Robot::Robot() : _programmer(nullptr)
+Robot::Robot() : _motherboard(nullptr)
 {
   strcpy(_leftMotor.meta.name, "left motor");
   strcpy(_rightMotor.meta.name, "right motor");
@@ -23,42 +23,42 @@ bool Robot::init()
 
   return success;
 }
-void Robot::powerOn()
+void Robot::setPowerOn()
 {
-  Device::powerOn();
-  _leftMotor.powerOn();
-  _rightMotor.powerOn();
-  _ultrasonicSensor.powerOn();
+  Device::setPowerOn();
+  _leftMotor.setPowerOn();
+  _rightMotor.setPowerOn();
+  _ultrasonicSensor.setPowerOn();
 }
-void Robot::powerOff()
+void Robot::setPowerOff()
 {
-  _leftMotor.powerOff();
-  _rightMotor.powerOff();
-  _ultrasonicSensor.powerOff();
-  Device::powerOff();
+  _leftMotor.setPowerOff();
+  _rightMotor.setPowerOff();
+  _ultrasonicSensor.setPowerOff();
+  Device::setPowerOff();
 }
 
-bool Robot::mount(Programmer *programmer)
+bool Robot::mount(Motherboard *motherboard)
 {
-  if(programmerMounted()) return false;
-  _programmer = programmer;
-  _programmer->plug(this);
-  _programmer->plug(& _leftMotor);
-  _programmer->plug(& _rightMotor);
-  _programmer->plug(& _ultrasonicSensor);
+  if(motherboardMounted()) return false;
+  _motherboard = motherboard;
+  _motherboard->plug(this);
+  _motherboard->plug(& _leftMotor);
+  _motherboard->plug(& _rightMotor);
+  _motherboard->plug(& _ultrasonicSensor);
   return true;
 }
 bool Robot::unmount()
 {
-  if(! programmerMounted()) return false;
-  _programmer->unplug(& _leftMotor);
-  _programmer->unplug(& _rightMotor);
-  _programmer->unplug(& _ultrasonicSensor);
-  _programmer->unplug();
-  _programmer = nullptr;
+  if(! motherboardMounted()) return false;
+  _motherboard->unplug(& _leftMotor);
+  _motherboard->unplug(& _rightMotor);
+  _motherboard->unplug(& _ultrasonicSensor);
+  _motherboard->unplug();
+  _motherboard = nullptr;
   return true;
 }
-bool Robot::programmerMounted()
+bool Robot::motherboardMounted()
 {
-  return _programmer;
+  return _motherboard;
 }

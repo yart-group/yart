@@ -1,8 +1,8 @@
 #include "motor.h"
 
-void Motor::powerOff()
+void Motor::setPowerOff()
 {
-  OutputGadget::powerOff();
+  OutputGadget::setPowerOff();
   if(_motor) delete _motor;
   _motor = nullptr;
 }
@@ -10,7 +10,7 @@ void Motor::powerOff()
 
 bool Motor::reconnect()
 {
-  if(port.usable() == false) return false;
+  if(port.isUsable() == false) return false;
 
   if(_motor) delete _motor;
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
@@ -24,7 +24,7 @@ bool Motor::reconnect()
 
 void Motor::write(double data)
 {
-  if(! working()) return;
+  if(! isWorking()) return;
 
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
   _motor->run(data);

@@ -1,6 +1,9 @@
 #ifndef DEVICE_H
 #define DEVICE_H
 
+#include "general/meta.h"
+#include "debugmanager.h"
+
 class Device
 {
   public:
@@ -9,26 +12,30 @@ class Device
       NOT_WORKING
     };
 
-    Device() : _power(false), _state(NOT_WORKING), _debug(false) {}
+    Meta meta;
 
-    virtual bool init() { if(powerEnabled() && !working()) { _state = WORKING; return true; } return false; }
-    virtual int state() { return _state; }
-    virtual bool working() { return (_state == WORKING); }
+    Device() : _power(false), _state(NOT_WORKING), meta(Meta::Device) {}
 
-    virtual bool powerEnabled() { return _power; }
-    virtual void setPower(bool on) { if(on) powerOn(); else powerOff(); }
-    virtual void powerOn() { _power = true; }
-    virtual void powerOff() { _power = false; _state = NOT_WORKING; }
+    virtual bool init() { if(isPowerEnabled() && !isWorking()) { _state = WORKING; return true; } return false; }
+    virtual int getState() { return _state; }
+    virtual bool isWorking() { return (_state == WORKING); }
 
-    virtual bool debugEnabled() { return _debug; }
-    virtual void setDebug(bool on) { if(on) debugOn(); else debugOff(); }
-    virtual void debugOn() { _debug = true; }
-    virtual void debugOff() { _debug = false; }
+    virtual bool isPowerEnabled() { return _power; }
+    virtual void setPower(bool on) { if(on) setPowerOn(); else setPowerOff(); }
+    virtual void setPowerOn() { _power = true; }
+    virtual void setPowerOff() { _power = false; _state = NOT_WORKING; }
+
+    virtual bool isDebugEnabled() { return debug.isEnabled(); }
+    virtual void setDebug(bool on) { if(on) setDebugOn(); else setDebugOff(); }
+    virtual void setDebugOn() { debug.setOn(); }
+    virtual void setDebugOff() { debug.setOff(); }
 
   protected:
-    bool _power;
     int _state;
-    bool _debug;
+    DebugManager debug;
+
+  private:
+    bool _power;
 
 };
 

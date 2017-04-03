@@ -33,7 +33,7 @@ SOURCES += \
     inputgadget.cpp \
     outputgadget.cpp \
     iogadget.cpp \
-    programmer/programmer.cpp \
+    motherboard/motherboard.cpp \
     devices/robot.cpp \
     devices/usb.cpp \
     devices/flash.cpp \
@@ -45,13 +45,26 @@ SOURCES += \
     gadgets/input/sensors/ultrasonicsensor.cpp \
     gadgets/input/sensors/infraredsensor.cpp \
     general/port.cpp \
-    programmer/kernel.cpp \
+    motherboard/kernel.cpp \
     general/meta.cpp \
-    general/stropr.cpp \
-    programmer/program.cpp \
-    programmer/driver.cpp \
-    programmer/programcontainer.cpp \
-    programmer/commandtable.cpp
+    motherboard/program.cpp \
+    motherboard/driver.cpp \
+    motherboard/programcontainer.cpp \
+    motherboard/commandtable.cpp \
+    motherboard/commandtable.cpp \
+    motherboard/driver.cpp \
+    motherboard/kernel.cpp \
+    motherboard/program.cpp \
+    motherboard/programcontainer.cpp \
+    motherboard/motherboard.cpp \
+    motherboard/commandtable.cpp \
+    motherboard/driver.cpp \
+    motherboard/kernel.cpp \
+    motherboard/motherboard.cpp \
+    motherboard/program.cpp \
+    motherboard/programcontainer.cpp \
+    debugmanager.cpp \
+    logger.cpp
 
 HEADERS += \
     device.h \
@@ -59,7 +72,7 @@ HEADERS += \
     inputgadget.h \
     outputgadget.h \
     iogadget.h \
-    programmer/programmer.h \
+    motherboard/motherboard.h \
     devices/robot.h \
     devices/usb.h \
     devices/flash.h \
@@ -71,15 +84,27 @@ HEADERS += \
     gadgets/input/sensors/ultrasonicsensor.h \
     gadgets/input/sensors/infraredsensor.h \
     general/port.h \
-    programmer/kernel.h \
+    motherboard/kernel.h \
     general/config.h \
     general/meta.h \
-    general/stropr.h \
-    programmer/program.h \
-    programmer/driver.h \
-    programmer/programcontainer.h \
-    programmer/commandtable.h
-    libarduino.h \
+    motherboard/program.h \
+    motherboard/driver.h \
+    motherboard/programcontainer.h \
+    motherboard/commandtable.h \
+    motherboard/commandtable.h \
+    motherboard/driver.h \
+    motherboard/kernel.h \
+    motherboard/program.h \
+    motherboard/programcontainer.h \
+    motherboard/motherboard.h \
+    motherboard/commandtable.h \
+    motherboard/driver.h \
+    motherboard/kernel.h \
+    motherboard/motherboard.h \
+    motherboard/program.h \
+    motherboard/programcontainer.h \
+    debugmanager.h \
+    logger.h
 
 unix {
     target.path = /usr/lib

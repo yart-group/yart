@@ -7,7 +7,7 @@
 class IOGadget : public InputGadget, public OutputGadget
 {
   public:
-    IOGadget() : meta(Meta::IOGadget) {}
+    IOGadget() : meta(Meta::IOGadget) { OutputGadget::meta.type = InputGadget::meta.type = Meta::IOGadget; }
 
     Meta meta;
 };

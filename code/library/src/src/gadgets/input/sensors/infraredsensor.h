@@ -9,7 +9,7 @@ class InfraredSensor : public Sensor
   public:
     InfraredSensor() : _sensor(nullptr) {}
 
-    void powerOff();
+    void setPowerOff();
 
     bool reconnect();
     bool loop();
