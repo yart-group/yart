@@ -12,30 +12,7 @@ add() {
   fi
 }
 
-add general/config
-add general/port
-add general/meta
-add device
-add gadget
-add inputgadget
-add outputgadget
-add iogadget
-add gadgets/io/cable
-add gadgets/output/motor
-add gadgets/input/battery
-add gadgets/input/sensor
-add gadgets/input/sensors/infraredsensor
-add gadgets/input/sensors/ultrasonicsensor
-add devices/flash
-add devices/usb
-add devices/pilot
-add devices/robot
-add programmer/programmer
-add programmer/program
-add programmer/driver
-add programmer/programcontainer
-add programmer/commandtable
-add programmer/kernel
+source files
 
 echo ""
 echo -e "\033[32m transforming #include's \033[00m..."
