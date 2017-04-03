@@ -13,8 +13,9 @@ class Meta
       InputGadget,
       OutputGadget,
       IOGadget,
-      Program = 10,
+      Program,
       Driver,
+      Logger
     };
 
     Meta(const char * name_ = "unknown", int type_ = Unknown) : name(new char[20]), type(type_) {

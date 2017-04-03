@@ -6,6 +6,8 @@
 class Logger
 {
   public:
+    Logger() : meta(Meta::Logger) {}
+
     Meta meta;
 
     virtual Logger & operator << (const char * data) = 0;
