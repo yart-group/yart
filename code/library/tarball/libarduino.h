@@ -628,9 +628,9 @@ class Kernel
     int command(const char * cmd);
 
     CommandTable _commandTable;
+    Motherboard * _motherboard;
   private:
     bool _enabled;
-    Motherboard * _motherboard;
     ProgramContainer _programs;
     ProgramContainer _drivers;
     ProgramContainer _startedPrograms;
