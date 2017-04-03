@@ -73,42 +73,56 @@ void BasicMovement::move(int speed)
 //*********************************************************************************************//
 //*********************************************************************************************//
 
-Robot * robot;
-Motherboard * motherboard;
-Kernel * kernel;
-
-Drive * program;
-BasicMovement * driver;
-
 void setup() {
   Serial.begin(9600);
+
+  Serial.println("creating hardware ...");
   
-  robot = new Robot;
-  motherboard = new Motherboard;
+  Robot robot;
+  Motherboard motherboard;
+
+  Serial.println("creating kernel ...");
   
-  kernel = new Kernel;
-  program = new Drive;
-  driver = new BasicMovement;
+  Kernel kernel;
 
-  //-----------------------------------//
-
-  motherboard->setPowerOn();
-  robot->setPowerOn();
-
-  robot->init();
-  motherboard->init();
+  Serial.println("creating software ...");
   
-  robot->mount(motherboard);
+  Drive program;
+  BasicMovement driver;
 
-  motherboard->load(kernel);
+  Serial.println("power on ...");
 
-  delay(5000);
+  motherboard.setPowerOn();
+  robot.setPowerOn();
+
+  Serial.println("init ...");
+
+  robot.init();
+  motherboard.init();
+
+  Serial.println("mount ...");
   
-  kernel->run();
-  kernel->load(driver);
-  kernel->load(program);
-  kernel->start(Meta("basic_movement", Meta::Driver));
-  kernel->start(Meta("drive", Meta::Program));  
+  robot.mount(&motherboard);
+
+  Serial.println("load ...");
+
+  motherboard.load(&kernel);
+
+  Serial.println("run ...");
+  
+  kernel.run();
+
+  Serial.print("load driver: ");
+  Serial.println( kernel.load(&driver) );
+
+  Serial.print("load program: ");
+  Serial.println( kernel.load(&program) );
+
+  Serial.print("start driver: ");
+  Serial.println( kernel.start(Meta("basic_movement", Meta::Driver)) );
+
+  Serial.print("start program: ");
+  Serial.println( kernel.start(Meta("drive", Meta::Program)) );  
 }
 
 void loop() {
