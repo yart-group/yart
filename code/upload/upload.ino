@@ -18,7 +18,7 @@ class Drive : public Program
     int main(int argc, const char * const *argv);
 };
 
-int Drive::main(int /*argc*/, const char * const */*argv*/)
+int Drive::main(int /*argc*/, const char * const * /*argv*/)
 {
   int exit_code = _kernel->command("move 100");
   if(exit_code == -1) /*cout << " > unknown command " << endl*/ ;
@@ -77,16 +77,16 @@ void setup() {
   Serial.begin(9600);
 
   Serial.println("creating hardware ...");
-  
+
   Robot robot;
   Motherboard motherboard;
 
   Serial.println("creating kernel ...");
-  
+
   Kernel kernel;
 
   Serial.println("creating software ...");
-  
+
   Drive program;
   BasicMovement driver;
 
@@ -101,7 +101,7 @@ void setup() {
   motherboard.init();
 
   Serial.println("mount ...");
-  
+
   robot.mount(&motherboard);
 
   Serial.println("load ...");
@@ -109,7 +109,7 @@ void setup() {
   motherboard.load(&kernel);
 
   Serial.println("run ...");
-  
+
   kernel.run();
 
   Serial.print("load driver: ");
@@ -122,12 +122,12 @@ void setup() {
   Serial.println( kernel.start(Meta("basic_movement", Meta::Driver)) );
 
   Serial.print("start program: ");
-  Serial.println( kernel.start(Meta("drive", Meta::Program)) );  
+  Serial.println( kernel.start(Meta("drive", Meta::Program)) );
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  
+
 }
 
 

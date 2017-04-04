@@ -2,6 +2,7 @@
 #define CONFIG_H
 
 #ifndef COMPILE_FOR_ARDUINO_UPLOAD
+  #warning COMPILE_FOR_ARDUINO_UPLOAD not set, using default
   #define COMPILE_FOR_ARDUINO_UPLOAD false
 #endif
 

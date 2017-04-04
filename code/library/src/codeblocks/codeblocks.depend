@@ -1,0 +1,178 @@
+# depslib dependency file v1.0
+1491303200 source:f:\github\goofy\code\library\src\src\debugmanager.cpp
+	"debugmanager.h"
+
+1491299662 f:\github\goofy\code\library\src\src\debugmanager.h
+	"logger.h"
+
+1491299664 f:\github\goofy\code\library\src\src\logger.h
+	"general/meta.h"
+
+1491299664 f:\github\goofy\code\library\src\src\general\meta.h
+	<cstring>
+
+1491215494 source:f:\github\goofy\code\library\src\src\device.cpp
+	"device.h"
+
+1491299662 f:\github\goofy\code\library\src\src\device.h
+	"general/meta.h"
+	"debugmanager.h"
+
+1491215494 source:f:\github\goofy\code\library\src\src\devices\flash.cpp
+	"flash.h"
+
+1491215494 f:\github\goofy\code\library\src\src\devices\flash.h
+	"device.h"
+
+1491299664 source:f:\github\goofy\code\library\src\src\devices\pilot.cpp
+	"pilot.h"
+
+1491299664 f:\github\goofy\code\library\src\src\devices\pilot.h
+	"device.h"
+	"gadgets/input/sensors/infraredsensor.h"
+
+1491299664 source:f:\github\goofy\code\library\src\src\devices\robot.cpp
+	"robot.h"
+	"motherboard/motherboard.h"
+
+1491299664 f:\github\goofy\code\library\src\src\devices\robot.h
+	"device.h"
+	"gadgets/input/sensors/ultrasonicsensor.h"
+	"gadgets/output/motor.h"
+
+1491215496 source:f:\github\goofy\code\library\src\src\devices\usb.cpp
+	"usb.h"
+
+1491215496 f:\github\goofy\code\library\src\src\devices\usb.h
+	"device.h"
+
+1491299664 source:f:\github\goofy\code\library\src\src\gadget.cpp
+	"gadget.h"
+
+1491299664 f:\github\goofy\code\library\src\src\gadget.h
+	"device.h"
+	"general/port.h"
+	"general/meta.h"
+
+1491299664 f:\github\goofy\code\library\src\src\general\port.h
+
+1491215496 source:f:\github\goofy\code\library\src\src\gadgets\input\battery.cpp
+	"battery.h"
+
+1491215496 f:\github\goofy\code\library\src\src\gadgets\input\battery.h
+	"iogadget.h"
+
+1491215496 source:f:\github\goofy\code\library\src\src\gadgets\input\sensor.cpp
+	"sensor.h"
+
+1491215496 f:\github\goofy\code\library\src\src\gadgets\input\sensor.h
+	"inputgadget.h"
+
+1491299664 source:f:\github\goofy\code\library\src\src\gadgets\input\sensors\infraredsensor.cpp
+	"infraredsensor.h"
+
+1491299664 f:\github\goofy\code\library\src\src\gadgets\input\sensors\infraredsensor.h
+	"gadgets/input/sensor.h"
+	"general/config.h"
+
+1491299664 source:f:\github\goofy\code\library\src\src\gadgets\input\sensors\ultrasonicsensor.cpp
+	"ultrasonicsensor.h"
+
+1491299664 f:\github\goofy\code\library\src\src\gadgets\input\sensors\ultrasonicsensor.h
+	"gadgets/input/sensor.h"
+	"general/config.h"
+
+1491215496 source:f:\github\goofy\code\library\src\src\gadgets\io\cable.cpp
+	"cable.h"
+
+1491215496 f:\github\goofy\code\library\src\src\gadgets\io\cable.h
+	"iogadget.h"
+
+1491299664 source:f:\github\goofy\code\library\src\src\gadgets\output\motor.cpp
+	"motor.h"
+
+1491299664 f:\github\goofy\code\library\src\src\gadgets\output\motor.h
+	"outputgadget.h"
+	"general/config.h"
+
+1491299664 source:f:\github\goofy\code\library\src\src\general\global.cpp
+	"global.h"
+
+1491299664 f:\github\goofy\code\library\src\src\general\global.h
+	"config.h"
+	<cstring>
+
+1491303746 f:\github\goofy\code\library\src\src\general\config.h
+
+1491215496 source:f:\github\goofy\code\library\src\src\general\meta.cpp
+	"meta.h"
+
+1491215496 source:f:\github\goofy\code\library\src\src\general\port.cpp
+	"port.h"
+
+1491215496 source:f:\github\goofy\code\library\src\src\inputgadget.cpp
+	"inputgadget.h"
+
+1491215496 f:\github\goofy\code\library\src\src\inputgadget.h
+	"gadget.h"
+
+1491215496 source:f:\github\goofy\code\library\src\src\iogadget.cpp
+	"iogadget.h"
+
+1491299664 f:\github\goofy\code\library\src\src\iogadget.h
+	"inputgadget.h"
+	"outputgadget.h"
+
+1491215498 f:\github\goofy\code\library\src\src\outputgadget.h
+	"gadget.h"
+
+1491299664 source:f:\github\goofy\code\library\src\src\logger.cpp
+	"logger.h"
+
+1491299664 source:f:\github\goofy\code\library\src\src\motherboard\commandtable.cpp
+	"commandtable.h"
+
+1491299664 f:\github\goofy\code\library\src\src\motherboard\commandtable.h
+	"program.h"
+
+1491299666 f:\github\goofy\code\library\src\src\motherboard\program.h
+	"general/meta.h"
+
+1491299666 source:f:\github\goofy\code\library\src\src\motherboard\driver.cpp
+	"driver.h"
+
+1491299666 f:\github\goofy\code\library\src\src\motherboard\driver.h
+	"program.h"
+
+1491299666 source:f:\github\goofy\code\library\src\src\motherboard\kernel.cpp
+	"kernel.h"
+	<cstring>
+
+1491299666 f:\github\goofy\code\library\src\src\motherboard\kernel.h
+	"general/meta.h"
+	"motherboard.h"
+	"programcontainer.h"
+	"driver.h"
+	"commandtable.h"
+
+1491299666 f:\github\goofy\code\library\src\src\motherboard\motherboard.h
+	"general/meta.h"
+	"device.h"
+	"devices/robot.h"
+	"gadget.h"
+
+1491299666 f:\github\goofy\code\library\src\src\motherboard\programcontainer.h
+	"program.h"
+
+1491299666 source:f:\github\goofy\code\library\src\src\motherboard\motherboard.cpp
+	"motherboard.h"
+
+1491299666 source:f:\github\goofy\code\library\src\src\motherboard\program.cpp
+	"program.h"
+
+1491299666 source:f:\github\goofy\code\library\src\src\motherboard\programcontainer.cpp
+	"programcontainer.h"
+
+1491215498 source:f:\github\goofy\code\library\src\src\outputgadget.cpp
+	"outputgadget.h"
+
