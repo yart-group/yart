@@ -1022,22 +1022,14 @@ mainwindow.o: ../mainwindow.cpp ../mainwindow.h \
 		/opt/Qt/5.8/gcc_64/include/QtWidgets/qstyle.h \
 		/opt/Qt/5.8/gcc_64/include/QtWidgets/qtabbar.h \
 		/opt/Qt/5.8/gcc_64/include/QtWidgets/qrubberband.h \
-		/opt/Qt/5.8/gcc_64/include/QtWidgets/QLabel \
-		/opt/Qt/5.8/gcc_64/include/QtWidgets/qlabel.h \
 		/opt/Qt/5.8/gcc_64/include/QtWidgets/QMenuBar \
 		/opt/Qt/5.8/gcc_64/include/QtWidgets/qmenubar.h \
 		/opt/Qt/5.8/gcc_64/include/QtWidgets/qmenu.h \
-		/opt/Qt/5.8/gcc_64/include/QtWidgets/QPushButton \
-		/opt/Qt/5.8/gcc_64/include/QtWidgets/qpushbutton.h \
-		/opt/Qt/5.8/gcc_64/include/QtWidgets/qabstractbutton.h \
-		/opt/Qt/5.8/gcc_64/include/QtWidgets/QStackedWidget \
-		/opt/Qt/5.8/gcc_64/include/QtWidgets/qstackedwidget.h \
 		/opt/Qt/5.8/gcc_64/include/QtWidgets/QStatusBar \
 		/opt/Qt/5.8/gcc_64/include/QtWidgets/qstatusbar.h \
 		/opt/Qt/5.8/gcc_64/include/QtWidgets/QTabWidget \
 		/opt/Qt/5.8/gcc_64/include/QtWidgets/QToolBar \
 		/opt/Qt/5.8/gcc_64/include/QtWidgets/qtoolbar.h \
-		/opt/Qt/5.8/gcc_64/include/QtWidgets/QVBoxLayout \
 		/opt/Qt/5.8/gcc_64/include/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../mainwindow.cpp
 
