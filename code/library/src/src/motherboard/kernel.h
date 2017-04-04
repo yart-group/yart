@@ -2,7 +2,7 @@
 #define KERNEL_H
 
 #include "general/meta.h"
-#include "programmer.h"
+#include "motherboard.h"
 #include "programcontainer.h"
 #include "driver.h"
 #include "commandtable.h"
@@ -14,7 +14,7 @@ class Kernel
     friend class Driver;
     friend class CommandTable;
 
-    Kernel() : _enabled(false), _programmer(nullptr) {}
+    Kernel() : _enabled(false), _motherboard(nullptr) {}
 
     bool run();
     bool quit();
@@ -25,9 +25,9 @@ class Kernel
     int command(const char * cmd);
 
     CommandTable _commandTable;
+    Motherboard * _motherboard;
   private:
     bool _enabled;
-    Programmer * _programmer;
     ProgramContainer _programs;
     ProgramContainer _drivers;
     ProgramContainer _startedPrograms;

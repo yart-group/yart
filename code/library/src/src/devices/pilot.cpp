@@ -7,27 +7,27 @@ bool Pilot::init()
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
   _infraredSensor.port.setPort(6);
   _infraredSensor.init();
-  if( _infraredSensor.working() )
+  if( _infraredSensor.isWorking() )
     return true;
   else
     return false;
 #endif
   return true;
 }
-void Pilot::powerOn()
+void Pilot::setPowerOn()
 {
-  Device::powerOn();
-  _infraredSensor.powerOn();
+  Device::setPowerOn();
+  _infraredSensor.setPowerOn();
 }
-void Pilot::powerOff()
+void Pilot::setPowerOff()
 {
-  _infraredSensor.powerOff();
-  Device::powerOff();
+  _infraredSensor.setPowerOff();
+  Device::setPowerOff();
 }
 
 int Pilot::getCode()
 {
-  if(! working()) return -1;
+  if(! isWorking()) return -1;
 
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
   _lastCode = _infraredSensor.read();
@@ -40,7 +40,7 @@ int Pilot::getCode()
 }
 int Pilot::getLast()
 {
-  if(! working()) return -1;
+  if(! isWorking()) return -1;
 
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
   return _lastCode;
