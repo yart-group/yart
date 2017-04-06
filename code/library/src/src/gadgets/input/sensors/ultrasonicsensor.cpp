@@ -1,15 +1,15 @@
 #include "ultrasonicsensor.h"
 
-void UltrasonicSensor::powerOff()
+void UltrasonicSensor::setPowerOff()
 {
-  Sensor::powerOff();
+  Sensor::setPowerOff();
   if(_sensor) delete _sensor;
   _sensor = nullptr;
 }
 
 bool UltrasonicSensor::reconnect()
 {
-  if(port.usable() == false) return false;
+  if(port.isUsable() == false) return false;
 
   if(_sensor) delete _sensor;
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
@@ -23,7 +23,7 @@ bool UltrasonicSensor::reconnect()
 
 double UltrasonicSensor::read()
 {
-  if(! working()) return -1;
+  if(! isWorking()) return -1;
 
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
   return _sensor->distanceCm();

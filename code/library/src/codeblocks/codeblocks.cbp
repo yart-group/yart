@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="codeblocks" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/codeblocks" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Debug/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/codeblocks" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Release/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="../src/debugmanager.cpp" />
+		<Unit filename="../src/debugmanager.h" />
+		<Unit filename="../src/device.cpp" />
+		<Unit filename="../src/device.h" />
+		<Unit filename="../src/devices/flash.cpp" />
+		<Unit filename="../src/devices/flash.h" />
+		<Unit filename="../src/devices/pilot.cpp" />
+		<Unit filename="../src/devices/pilot.h" />
+		<Unit filename="../src/devices/robot.cpp" />
+		<Unit filename="../src/devices/robot.h" />
+		<Unit filename="../src/devices/usb.cpp" />
+		<Unit filename="../src/devices/usb.h" />
+		<Unit filename="../src/gadget.cpp" />
+		<Unit filename="../src/gadget.h" />
+		<Unit filename="../src/gadgets/input/battery.cpp" />
+		<Unit filename="../src/gadgets/input/battery.h" />
+		<Unit filename="../src/gadgets/input/sensor.cpp" />
+		<Unit filename="../src/gadgets/input/sensor.h" />
+		<Unit filename="../src/gadgets/input/sensors/infraredsensor.cpp" />
+		<Unit filename="../src/gadgets/input/sensors/infraredsensor.h" />
+		<Unit filename="../src/gadgets/input/sensors/ultrasonicsensor.cpp" />
+		<Unit filename="../src/gadgets/input/sensors/ultrasonicsensor.h" />
+		<Unit filename="../src/gadgets/io/cable.cpp" />
+		<Unit filename="../src/gadgets/io/cable.h" />
+		<Unit filename="../src/gadgets/output/motor.cpp" />
+		<Unit filename="../src/gadgets/output/motor.h" />
+		<Unit filename="../src/general/config.h" />
+		<Unit filename="../src/general/global.cpp" />
+		<Unit filename="../src/general/global.h" />
+		<Unit filename="../src/general/meta.cpp" />
+		<Unit filename="../src/general/meta.h" />
+		<Unit filename="../src/general/port.cpp" />
+		<Unit filename="../src/general/port.h" />
+		<Unit filename="../src/inputgadget.cpp" />
+		<Unit filename="../src/inputgadget.h" />
+		<Unit filename="../src/iogadget.cpp" />
+		<Unit filename="../src/iogadget.h" />
+		<Unit filename="../src/logger.cpp" />
+		<Unit filename="../src/logger.h" />
+		<Unit filename="../src/motherboard/commandtable.cpp" />
+		<Unit filename="../src/motherboard/commandtable.h" />
+		<Unit filename="../src/motherboard/driver.cpp" />
+		<Unit filename="../src/motherboard/driver.h" />
+		<Unit filename="../src/motherboard/kernel.cpp" />
+		<Unit filename="../src/motherboard/kernel.h" />
+		<Unit filename="../src/motherboard/motherboard.cpp" />
+		<Unit filename="../src/motherboard/motherboard.h" />
+		<Unit filename="../src/motherboard/program.cpp" />
+		<Unit filename="../src/motherboard/program.h" />
+		<Unit filename="../src/motherboard/programcontainer.cpp" />
+		<Unit filename="../src/motherboard/programcontainer.h" />
+		<Unit filename="../src/outputgadget.cpp" />
+		<Unit filename="../src/outputgadget.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

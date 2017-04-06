@@ -1,4 +1,38 @@
 
+
+//kappa "global.h"
+
+#if COMPILE_FOR_ARDUINO_UPLOAD == false
+
+char *strcpy(char *a, const char *b)
+{
+   char *saved = a;
+   while (*b) *a++ = *b++;
+   *a = 0;
+   return saved;
+}
+
+int strcmp(const char * a, const char * b)
+{
+  const unsigned char *p1 = (const unsigned char *)a;
+  const unsigned char *p2 = (const unsigned char *)b;
+
+  while (*p1 != '\0') {
+      if (*p2 == '\0') return  1;
+      if (*p2 > *p1)   return -1;
+      if (*p1 > *p2)   return  1;
+
+      p1++;
+      p2++;
+  }
+
+  if (*p2 != '\0') return -1;
+
+  return 0;
+}
+
+
+#endif
 //kappa "port.h"
 
 Port::Port() :
@@ -20,6 +54,74 @@ int Port::getPort()
   return ( _usable ? _port : -1 );
 }
 //kappa "meta.h"
+//kappa "logger.h"
+//kappa "debugmanager.h"
+
+DebugManager::DebugManager() :
+  _enabled(false),
+  _logger(nullptr),
+  _loggers(0)
+{
+  _logger = new Logger * [10];
+  for(int i=0; i<10; i++)
+    _logger[i] = nullptr;
+}
+
+DebugManager & DebugManager::operator << (const char * data)
+{
+  if(isEnabled() == false) return *this;
+
+  for(int i=0; i<_loggers; i++)
+    *_logger[i] << data;
+
+  return *this;
+}
+DebugManager & DebugManager::operator << (double data)
+{
+  if(isEnabled() == false) return *this;
+
+  for(int i=0; i<_loggers; i++)
+    *_logger[i] << data;
+
+  return *this;
+}
+DebugManager & DebugManager::operator << (Meta data)
+{
+  if(isEnabled() == false) return *this;
+
+  for(int i=0; i<_loggers; i++)
+    *_logger[i] << data;
+
+  return *this;
+}
+
+bool DebugManager::add(Logger *logger)
+{
+  if(! logger) return false;
+
+  for(int i=0; i<_loggers; i++)
+    if(_logger[i] == logger)
+      return false;
+
+  _logger[_loggers] = logger;
+  _loggers++;
+  return true;
+}
+bool DebugManager::del(Logger *logger)
+{
+  if(! logger) return false;
+
+  for(int i=0; i<_loggers; i++)
+    if(_logger[i] == logger){
+      for(; i<_loggers-1; i++)
+        _logger[i] = _logger[i+1];
+      _logger[i] = nullptr;
+      _loggers--;
+      return true;
+    }
+
+  return false;
+}
 //kappa "device.h"
 
 //kappa "gadget.h"
@@ -31,7 +133,7 @@ bool Gadget::init()
   if( ! reconnect() )
     _state = NOT_WORKING;
 
-  return working();
+  return isWorking();
 }
 //kappa "inputgadget.h"
 //kappa "outputgadget.h"
@@ -39,9 +141,9 @@ bool Gadget::init()
 //kappa "cable.h"
 //kappa "motor.h"
 
-void Motor::powerOff()
+void Motor::setPowerOff()
 {
-  OutputGadget::powerOff();
+  OutputGadget::setPowerOff();
   if(_motor) delete _motor;
   _motor = nullptr;
 }
@@ -49,7 +151,7 @@ void Motor::powerOff()
 
 bool Motor::reconnect()
 {
-  if(port.usable() == false) return false;
+  if(port.isUsable() == false) return false;
 
   if(_motor) delete _motor;
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
@@ -63,7 +165,7 @@ bool Motor::reconnect()
 
 void Motor::write(double data)
 {
-  if(! working()) return;
+  if(! isWorking()) return;
 
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
   _motor->run(data);
@@ -73,20 +175,20 @@ void Motor::write(double data)
 //kappa "sensor.h"
 //kappa "infraredsensor.h"
 
-void InfraredSensor::powerOff()
+void InfraredSensor::setPowerOff()
 {
-  Sensor::powerOff();
+  Sensor::setPowerOff();
   if(_sensor) delete _sensor;
   _sensor = nullptr;
 }
 
 bool InfraredSensor::reconnect()
 {
-  if(port.usable() == false) return false;
+  if(port.isUsable() == false) return false;
 
   if(_sensor) delete _sensor;
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
-  _sensor = new MeInfraredSensor( port.getPort() );
+  _sensor = new MeInfraredReceiver( port.getPort() );
   _sensor->begin();
 #else
   _sensor = new int;
@@ -105,7 +207,7 @@ bool InfraredSensor::loop()
 
 double InfraredSensor::read()
 {
-  if(! working()) return -1;
+  if(! isWorking()) return -1;
 
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
   return _sensor->getCode();
@@ -115,16 +217,16 @@ double InfraredSensor::read()
 }
 //kappa "ultrasonicsensor.h"
 
-void UltrasonicSensor::powerOff()
+void UltrasonicSensor::setPowerOff()
 {
-  Sensor::powerOff();
+  Sensor::setPowerOff();
   if(_sensor) delete _sensor;
   _sensor = nullptr;
 }
 
 bool UltrasonicSensor::reconnect()
 {
-  if(port.usable() == false) return false;
+  if(port.isUsable() == false) return false;
 
   if(_sensor) delete _sensor;
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
@@ -138,7 +240,7 @@ bool UltrasonicSensor::reconnect()
 
 double UltrasonicSensor::read()
 {
-  if(! working()) return -1;
+  if(! isWorking()) return -1;
 
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
   return _sensor->distanceCm();
@@ -167,27 +269,27 @@ bool Pilot::init()
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
   _infraredSensor.port.setPort(6);
   _infraredSensor.init();
-  if( _infraredSensor.working() )
+  if( _infraredSensor.isWorking() )
     return true;
   else
     return false;
 #endif
   return true;
 }
-void Pilot::powerOn()
+void Pilot::setPowerOn()
 {
-  Device::powerOn();
-  _infraredSensor.powerOn();
+  Device::setPowerOn();
+  _infraredSensor.setPowerOn();
 }
-void Pilot::powerOff()
+void Pilot::setPowerOff()
 {
-  _infraredSensor.powerOff();
-  Device::powerOff();
+  _infraredSensor.setPowerOff();
+  Device::setPowerOff();
 }
 
 int Pilot::getCode()
 {
-  if(! working()) return -1;
+  if(! isWorking()) return -1;
 
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
   _lastCode = _infraredSensor.read();
@@ -200,7 +302,7 @@ int Pilot::getCode()
 }
 int Pilot::getLast()
 {
-  if(! working()) return -1;
+  if(! isWorking()) return -1;
 
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
   return _lastCode;
@@ -209,9 +311,9 @@ int Pilot::getLast()
 #endif
 }
 //kappa "robot.h"
-//kappa "programmer/programmer.h"
+//kappa "motherboard/motherboard.h"
 
-Robot::Robot() : _programmer(nullptr)
+Robot::Robot() : _motherboard(nullptr)
 {
   strcpy(_leftMotor.meta.name, "left motor");
   strcpy(_rightMotor.meta.name, "right motor");
@@ -233,48 +335,48 @@ bool Robot::init()
 
   return success;
 }
-void Robot::powerOn()
+void Robot::setPowerOn()
 {
-  Device::powerOn();
-  _leftMotor.powerOn();
-  _rightMotor.powerOn();
-  _ultrasonicSensor.powerOn();
+  Device::setPowerOn();
+  _leftMotor.setPowerOn();
+  _rightMotor.setPowerOn();
+  _ultrasonicSensor.setPowerOn();
 }
-void Robot::powerOff()
+void Robot::setPowerOff()
 {
-  _leftMotor.powerOff();
-  _rightMotor.powerOff();
-  _ultrasonicSensor.powerOff();
-  Device::powerOff();
+  _leftMotor.setPowerOff();
+  _rightMotor.setPowerOff();
+  _ultrasonicSensor.setPowerOff();
+  Device::setPowerOff();
 }
 
-bool Robot::mount(Programmer *programmer)
+bool Robot::mount(Motherboard *motherboard)
 {
-  if(programmerMounted()) return false;
-  _programmer = programmer;
-  _programmer->plug(this);
-  _programmer->plug(& _leftMotor);
-  _programmer->plug(& _rightMotor);
-  _programmer->plug(& _ultrasonicSensor);
+  if(motherboardMounted()) return false;
+  _motherboard = motherboard;
+  _motherboard->plug(this);
+  _motherboard->plug(& _leftMotor);
+  _motherboard->plug(& _rightMotor);
+  _motherboard->plug(& _ultrasonicSensor);
   return true;
 }
 bool Robot::unmount()
 {
-  if(! programmerMounted()) return false;
-  _programmer->unplug(& _leftMotor);
-  _programmer->unplug(& _rightMotor);
-  _programmer->unplug(& _ultrasonicSensor);
-  _programmer->unplug();
-  _programmer = nullptr;
+  if(! motherboardMounted()) return false;
+  _motherboard->unplug(& _leftMotor);
+  _motherboard->unplug(& _rightMotor);
+  _motherboard->unplug(& _ultrasonicSensor);
+  _motherboard->unplug();
+  _motherboard = nullptr;
   return true;
 }
-bool Robot::programmerMounted()
+bool Robot::motherboardMounted()
 {
-  return _programmer;
+  return _motherboard;
 }
-//kappa "programmer.h"
+//kappa "motherboard.h"
 
-Programmer::Programmer() :
+Motherboard::Motherboard() :
   _kernel(nullptr),
   _robot(nullptr),
   _gadgets(0),
@@ -284,13 +386,13 @@ Programmer::Programmer() :
   for(int i=0; i<10; i++) _gadget[i] = nullptr;
 }
 
-void Programmer::powerOff()
+void Motherboard::setPowerOff()
 {
-  Device::powerOff();
+  Device::setPowerOff();
   unload();
 }
 
-bool Programmer::plug(Gadget *gadget)
+bool Motherboard::plug(Gadget *gadget)
 {
   if(!gadget) return false;
 
@@ -303,7 +405,7 @@ bool Programmer::plug(Gadget *gadget)
   return true;
 
 }
-bool Programmer::plug(Robot *robot)
+bool Motherboard::plug(Robot *robot)
 {
   if(!robot) return false;
   if(plugged()) return false;
@@ -311,7 +413,7 @@ bool Programmer::plug(Robot *robot)
   return true;
 }
 
-bool Programmer::unplug(Gadget *gadget)
+bool Motherboard::unplug(Gadget *gadget)
 {
   if(!gadget) return false;
 
@@ -328,13 +430,13 @@ bool Programmer::unplug(Gadget *gadget)
 
   return false;
 }
-bool Programmer::unplug()
+bool Motherboard::unplug()
 {
   if(!plugged()) return false;
   _robot = nullptr;
   return true;
 }
-bool Programmer::unplug(Meta meta)
+bool Motherboard::unplug(Meta meta)
 {
   for(int i=0; i<_gadgets; i++){
     if(_gadget[i]->meta.type == meta.type && !strcmp(_gadget[i]->meta.name, meta.name)){
@@ -350,11 +452,11 @@ bool Programmer::unplug(Meta meta)
   return false;
 }
 
-bool Programmer::plugged()
+bool Motherboard::plugged()
 {
   return _robot;
 }
-bool Programmer::plugged(Gadget *gadget)
+bool Motherboard::plugged(Gadget *gadget)
 {
   if(!gadget) return false;
 
@@ -364,12 +466,12 @@ bool Programmer::plugged(Gadget *gadget)
 
   return false;
 }
-bool Programmer::plugged(Robot *robot)
+bool Motherboard::plugged(Robot *robot)
 {
   if(!robot) return false;
   return _robot == robot;
 }
-bool Programmer::plugged(Meta meta)
+bool Motherboard::plugged(Meta meta)
 {
   for(int i=0; i<_gadgets; i++)
     if(_gadget[i]->meta.type == meta.type && !strcmp(_gadget[i]->meta.name, meta.name))
@@ -378,7 +480,7 @@ bool Programmer::plugged(Meta meta)
   return false;
 }
 
-Gadget * Programmer::get(Meta meta)
+Gadget * Motherboard::get(Meta meta)
 {
   for(int i=0; i<_gadgets; i++)
     if(_gadget[i]->meta.type == meta.type && !strcmp(_gadget[i]->meta.name, meta.name))
@@ -387,16 +489,16 @@ Gadget * Programmer::get(Meta meta)
   return nullptr;
 }
 
-bool Programmer::load(Kernel *kernel)
+bool Motherboard::load(Kernel *kernel)
 {
-  if(! working()) return false;
+  if(! isWorking()) return false;
   if(_kernel) return false;
   _kernel = kernel;
   return true;
 }
-bool Programmer::unload()
+bool Motherboard::unload()
 {
-  if(! working()) return false;
+  if(! isWorking()) return false;
   if(! _kernel) return false;
   _kernel = nullptr;
   return true;

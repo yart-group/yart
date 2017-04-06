@@ -1,6 +1,6 @@
-#include "programmer.h"
+#include "motherboard.h"
 
-Programmer::Programmer() :
+Motherboard::Motherboard() :
   _kernel(nullptr),
   _robot(nullptr),
   _gadgets(0),
@@ -10,13 +10,13 @@ Programmer::Programmer() :
   for(int i=0; i<10; i++) _gadget[i] = nullptr;
 }
 
-void Programmer::powerOff()
+void Motherboard::setPowerOff()
 {
-  Device::powerOff();
+  Device::setPowerOff();
   unload();
 }
 
-bool Programmer::plug(Gadget *gadget)
+bool Motherboard::plug(Gadget *gadget)
 {
   if(!gadget) return false;
 
@@ -29,7 +29,7 @@ bool Programmer::plug(Gadget *gadget)
   return true;
 
 }
-bool Programmer::plug(Robot *robot)
+bool Motherboard::plug(Robot *robot)
 {
   if(!robot) return false;
   if(plugged()) return false;
@@ -37,7 +37,7 @@ bool Programmer::plug(Robot *robot)
   return true;
 }
 
-bool Programmer::unplug(Gadget *gadget)
+bool Motherboard::unplug(Gadget *gadget)
 {
   if(!gadget) return false;
 
@@ -54,13 +54,13 @@ bool Programmer::unplug(Gadget *gadget)
 
   return false;
 }
-bool Programmer::unplug()
+bool Motherboard::unplug()
 {
   if(!plugged()) return false;
   _robot = nullptr;
   return true;
 }
-bool Programmer::unplug(Meta meta)
+bool Motherboard::unplug(Meta meta)
 {
   for(int i=0; i<_gadgets; i++){
     if(_gadget[i]->meta.type == meta.type && !strcmp(_gadget[i]->meta.name, meta.name)){
@@ -76,11 +76,11 @@ bool Programmer::unplug(Meta meta)
   return false;
 }
 
-bool Programmer::plugged()
+bool Motherboard::plugged()
 {
   return _robot;
 }
-bool Programmer::plugged(Gadget *gadget)
+bool Motherboard::plugged(Gadget *gadget)
 {
   if(!gadget) return false;
 
@@ -90,12 +90,12 @@ bool Programmer::plugged(Gadget *gadget)
 
   return false;
 }
-bool Programmer::plugged(Robot *robot)
+bool Motherboard::plugged(Robot *robot)
 {
   if(!robot) return false;
   return _robot == robot;
 }
-bool Programmer::plugged(Meta meta)
+bool Motherboard::plugged(Meta meta)
 {
   for(int i=0; i<_gadgets; i++)
     if(_gadget[i]->meta.type == meta.type && !strcmp(_gadget[i]->meta.name, meta.name))
@@ -104,7 +104,7 @@ bool Programmer::plugged(Meta meta)
   return false;
 }
 
-Gadget * Programmer::get(Meta meta)
+Gadget * Motherboard::get(Meta meta)
 {
   for(int i=0; i<_gadgets; i++)
     if(_gadget[i]->meta.type == meta.type && !strcmp(_gadget[i]->meta.name, meta.name))
@@ -113,16 +113,16 @@ Gadget * Programmer::get(Meta meta)
   return nullptr;
 }
 
-bool Programmer::load(Kernel *kernel)
+bool Motherboard::load(Kernel *kernel)
 {
-  if(! working()) return false;
+  if(! isWorking()) return false;
   if(_kernel) return false;
   _kernel = kernel;
   return true;
 }
-bool Programmer::unload()
+bool Motherboard::unload()
 {
-  if(! working()) return false;
+  if(! isWorking()) return false;
   if(! _kernel) return false;
   _kernel = nullptr;
   return true;

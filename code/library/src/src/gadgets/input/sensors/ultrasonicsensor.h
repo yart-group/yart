@@ -9,7 +9,7 @@ class UltrasonicSensor : public Sensor
   public:
     UltrasonicSensor() : _sensor(nullptr) {}
 
-    void powerOff();
+    void setPowerOff();
 
     bool reconnect();
     bool loop() { return true; }

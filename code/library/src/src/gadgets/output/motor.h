@@ -9,7 +9,7 @@ class Motor : public OutputGadget
   public:
     Motor() : _motor(nullptr) {}
 
-    void powerOff();
+    void setPowerOff();
 
     bool reconnect();
     bool loop() { return true; }

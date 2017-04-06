@@ -7,7 +7,7 @@ class Port
   public:
     Port();
 
-    bool usable() { return _usable; }
+    bool isUsable() { return _usable; }
 
     bool setPort(int port);
     int getPort();

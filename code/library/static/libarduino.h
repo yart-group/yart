@@ -2,8 +2,9 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-
-#define COMPILE_FOR_ARDUINO_UPLOAD false
+#ifndef COMPILE_FOR_ARDUINO_UPLOAD
+  #define COMPILE_FOR_ARDUINO_UPLOAD false
+#endif
 
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
   #warning use it only as with .tgz version of library
@@ -11,6 +12,22 @@
 #endif
 
 #endif // CONFIG_H
+#ifndef GLOBAL_H
+#define GLOBAL_H
+
+//kappa "config.h"
+
+#if COMPILE_FOR_ARDUINO_UPLOAD == false
+  #include <cstring>
+#else
+
+  #define nullptr 0
+
+  char * strcpy(char *a, const char *b);
+  int strcmp(const char * a, const char * b);
+#endif
+
+#endif // GLOBAL_H
 #ifndef PORT_H
 #define PORT_H
 
@@ -20,7 +37,7 @@ class Port
   public:
     Port();
 
-    bool usable() { return _usable; }
+    bool isUsable() { return _usable; }
 
     bool setPort(int port);
     int getPort();
@@ -37,7 +54,7 @@ class Port
 #ifndef META_H
 #define META_H
 
-//kappa <cstring>
+#include <cstring>
 
 class Meta
 {
@@ -49,8 +66,9 @@ class Meta
       InputGadget,
       OutputGadget,
       IOGadget,
-      Program = 10,
+      Program,
       Driver,
+      Logger
     };
 
     Meta(const char * name_ = "unknown", int type_ = Unknown) : name(new char[20]), type(type_) {
@@ -66,8 +84,59 @@ class Meta
 };
 
 #endif // META_H
+#ifndef LOGGER_H
+#define LOGGER_H
+
+//kappa "general/meta.h"
+
+class Logger
+{
+  public:
+    Logger() : meta(Meta::Logger) {}
+
+    Meta meta;
+
+    virtual Logger & operator << (const char * data) = 0;
+    virtual Logger & operator << (double data) = 0;
+    virtual Logger & operator << (Meta data) = 0;
+};
+
+#endif // LOGGER_H
+#ifndef DEBUGMANAGER_H
+#define DEBUGMANAGER_H
+
+//kappa "logger.h"
+
+class DebugManager
+{
+  public:
+    DebugManager();
+
+    DebugManager & operator << (const char * data);
+    DebugManager & operator << (double data);
+    DebugManager & operator << (Meta data);
+
+    bool add(Logger * logger);
+    bool del(Logger * logger);
+
+    bool isEnabled() { return _enabled; }
+    void set(bool on) { if(on) setOn(); else setOff(); }
+    void setOn() { _enabled = true; }
+    void setOff() { _enabled = false; }
+
+  private:
+    bool _enabled;
+
+    Logger **_logger;
+    int _loggers;
+};
+
+#endif // DEBUGMANAGER_H
 #ifndef DEVICE_H
 #define DEVICE_H
+
+//kappa "general/meta.h"
+//kappa "debugmanager.h"
 
 class Device
 {
@@ -77,26 +146,30 @@ class Device
       NOT_WORKING
     };
 
-    Device() : _power(false), _state(NOT_WORKING), _debug(false) {}
+    Meta meta;
 
-    virtual bool init() { if(powerEnabled() && !working()) { _state = WORKING; return true; } return false; }
-    virtual int state() { return _state; }
-    virtual bool working() { return (_state == WORKING); }
+    Device() : _power(false), _state(NOT_WORKING), meta(Meta::Device) {}
 
-    virtual bool powerEnabled() { return _power; }
-    virtual void setPower(bool on) { if(on) powerOn(); else powerOff(); }
-    virtual void powerOn() { _power = true; }
-    virtual void powerOff() { _power = false; _state = NOT_WORKING; }
+    virtual bool init() { if(isPowerEnabled() && !isWorking()) { _state = WORKING; return true; } return false; }
+    virtual int getState() { return _state; }
+    virtual bool isWorking() { return (_state == WORKING); }
 
-    virtual bool debugEnabled() { return _debug; }
-    virtual void setDebug(bool on) { if(on) debugOn(); else debugOff(); }
-    virtual void debugOn() { _debug = true; }
-    virtual void debugOff() { _debug = false; }
+    virtual bool isPowerEnabled() { return _power; }
+    virtual void setPower(bool on) { if(on) setPowerOn(); else setPowerOff(); }
+    virtual void setPowerOn() { _power = true; }
+    virtual void setPowerOff() { _power = false; _state = NOT_WORKING; }
+
+    virtual bool isDebugEnabled() { return debug.isEnabled(); }
+    virtual void setDebug(bool on) { if(on) setDebugOn(); else setDebugOff(); }
+    virtual void setDebugOn() { debug.setOn(); }
+    virtual void setDebugOff() { debug.setOff(); }
 
   protected:
-    bool _power;
     int _state;
-    bool _debug;
+    DebugManager debug;
+
+  private:
+    bool _power;
 
 };
 
@@ -111,10 +184,9 @@ class Device
 class Gadget : public Device
 {
   public:
-    Gadget() : meta(Meta::Gadget) {}
+    Gadget() { meta.type = Meta::Gadget; }
 
     Port port;
-    Meta meta;
 
     virtual bool reconnect() = 0;
     virtual bool loop() = 0;
@@ -160,7 +232,7 @@ class OutputGadget : public Gadget
 class IOGadget : public InputGadget, public OutputGadget
 {
   public:
-    IOGadget() : meta(Meta::IOGadget) {}
+    IOGadget() : meta(Meta::IOGadget) { OutputGadget::meta.type = InputGadget::meta.type = Meta::IOGadget; }
 
     Meta meta;
 };
@@ -188,7 +260,7 @@ class Motor : public OutputGadget
   public:
     Motor() : _motor(nullptr) {}
 
-    void powerOff();
+    void setPowerOff();
 
     bool reconnect();
     bool loop() { return true; }
@@ -238,7 +310,7 @@ class InfraredSensor : public Sensor
   public:
     InfraredSensor() : _sensor(nullptr) {}
 
-    void powerOff();
+    void setPowerOff();
 
     bool reconnect();
     bool loop();
@@ -247,7 +319,7 @@ class InfraredSensor : public Sensor
 
   private:
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
-    MeInfraredSensor * _sensor;
+    MeInfraredReceiver * _sensor;
 #else
     int * _sensor;
 #endif
@@ -265,7 +337,7 @@ class UltrasonicSensor : public Sensor
   public:
     UltrasonicSensor() : _sensor(nullptr) {}
 
-    void powerOff();
+    void setPowerOff();
 
     bool reconnect();
     bool loop() { return true; }
@@ -349,8 +421,8 @@ class Pilot : public Device
     };
 
     bool init();
-    void powerOn();
-    void powerOff();
+    void setPowerOn();
+    void setPowerOff();
 
     int getCode();
     int getLast();
@@ -368,7 +440,7 @@ class Pilot : public Device
 //kappa "gadgets/input/sensors/ultrasonicsensor.h"
 //kappa "gadgets/output/motor.h"
 
-class Programmer;
+class Motherboard;
 
 class Robot : public Device
 {
@@ -376,12 +448,12 @@ class Robot : public Device
     Robot();
 
     bool init();
-    void powerOn();
-    void powerOff();
+    void setPowerOn();
+    void setPowerOff();
 
-    bool mount(Programmer * programmer);
+    bool mount(Motherboard * motherboard);
     bool unmount();
-    bool programmerMounted();
+    bool motherboardMounted();
 
 
   private:
@@ -389,7 +461,7 @@ class Robot : public Device
     Motor _rightMotor;
     UltrasonicSensor _ultrasonicSensor;
 
-    Programmer * _programmer;
+    Motherboard * _motherboard;
 };
 
 #endif // ROBOT_H
@@ -403,14 +475,14 @@ class Robot : public Device
 
 class Kernel;
 
-class Programmer : public Device
+class Motherboard : public Device
 {
   public:
     friend class Kernel;
 
-    Programmer();
+    Motherboard();
 
-    void powerOff();
+    void setPowerOff();
 
     int gadgets(){ return _gadgets; }
     bool plug(Gadget * gadget);
@@ -425,7 +497,7 @@ class Programmer : public Device
     Gadget * get(Meta meta);
     bool load(Kernel * kernel);
     bool unload();
-    Kernel * kernel(){ if(! working()) return nullptr; return _kernel; }
+    Kernel * kernel(){ if(! isWorking()) return nullptr; return _kernel; }
 
   private:
     Kernel * _kernel;
@@ -533,7 +605,7 @@ class CommandTable
 #define KERNEL_H
 
 //kappa "general/meta.h"
-//kappa "programmer.h"
+//kappa "motherboard.h"
 //kappa "programcontainer.h"
 //kappa "driver.h"
 //kappa "commandtable.h"
@@ -545,7 +617,7 @@ class Kernel
     friend class Driver;
     friend class CommandTable;
 
-    Kernel() : _enabled(false), _programmer(nullptr) {}
+    Kernel() : _enabled(false), _motherboard(nullptr) {}
 
     bool run();
     bool quit();
@@ -558,7 +630,7 @@ class Kernel
     CommandTable _commandTable;
   private:
     bool _enabled;
-    Programmer * _programmer;
+    Motherboard * _motherboard;
     ProgramContainer _programs;
     ProgramContainer _drivers;
     ProgramContainer _startedPrograms;

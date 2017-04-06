@@ -8,10 +8,9 @@
 class Gadget : public Device
 {
   public:
-    Gadget() : meta(Meta::Gadget) {}
+    Gadget() { meta.type = Meta::Gadget; }
 
     Port port;
-    Meta meta;
 
     virtual bool reconnect() = 0;
     virtual bool loop() = 0;

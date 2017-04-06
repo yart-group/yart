@@ -7,5 +7,5 @@ bool Gadget::init()
   if( ! reconnect() )
     _state = NOT_WORKING;
 
-  return working();
+  return isWorking();
 }
