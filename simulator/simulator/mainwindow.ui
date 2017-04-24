@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>781</width>
-    <height>389</height>
+    <width>1331</width>
+    <height>551</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -253,16 +253,18 @@
          <property name="tabShape">
           <enum>QTabWidget::Rounded</enum>
          </property>
+         <property name="currentIndex">
+          <number>1</number>
+         </property>
          <widget class="QWidget" name="tab">
           <attribute name="title">
-           <string>Tab 1</string>
+           <string>logs</string>
           </attribute>
          </widget>
          <widget class="QWidget" name="tab_2">
           <attribute name="title">
-           <string>Tab 2</string>
+           <string>idk</string>
           </attribute>
-          <zorder>controlTabWidget</zorder>
          </widget>
         </widget>
        </item>
@@ -300,17 +302,131 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>781</width>
+     <width>1331</width>
      <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuXddd">
     <property name="title">
-     <string>xddd</string>
+     <string>simulation</string>
+    </property>
+    <addaction name="actionnew"/>
+    <addaction name="actionopen"/>
+    <addaction name="actionsave"/>
+   </widget>
+   <widget class="QMenu" name="menucomponents">
+    <property name="title">
+     <string>components</string>
+    </property>
+    <addaction name="actionmanage"/>
+    <addaction name="actionload"/>
+    <addaction name="actionunload"/>
+   </widget>
+   <widget class="QMenu" name="menuconsole">
+    <property name="title">
+     <string>console</string>
+    </property>
+    <addaction name="actionshow"/>
+    <addaction name="actionsettings"/>
+   </widget>
+   <widget class="QMenu" name="menupause">
+    <property name="title">
+     <string>pause</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menureset">
+    <property name="title">
+     <string>reset</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuemulators">
+    <property name="title">
+     <string>emulators</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuminitors">
+    <property name="title">
+     <string>monitors</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menurun">
+    <property name="title">
+     <string>run</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>                     </string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>                   </string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menutime">
+    <property name="title">
+     <string>frames: N</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menusettings">
+    <property name="title">
+     <string>settings</string>
     </property>
    </widget>
    <addaction name="menuXddd"/>
+   <addaction name="menucomponents"/>
+   <addaction name="menuconsole"/>
+   <addaction name="menu"/>
+   <addaction name="menurun"/>
+   <addaction name="menupause"/>
+   <addaction name="menureset"/>
+   <addaction name="menutime"/>
+   <addaction name="menu_2"/>
+   <addaction name="menuemulators"/>
+   <addaction name="menuminitors"/>
+   <addaction name="menusettings"/>
   </widget>
+  <action name="actionnew">
+   <property name="text">
+    <string>new</string>
+   </property>
+  </action>
+  <action name="actionopen">
+   <property name="text">
+    <string>open</string>
+   </property>
+  </action>
+  <action name="actionsave">
+   <property name="text">
+    <string>save</string>
+   </property>
+  </action>
+  <action name="actionmanage">
+   <property name="text">
+    <string>manage</string>
+   </property>
+  </action>
+  <action name="actionload">
+   <property name="text">
+    <string>load</string>
+   </property>
+  </action>
+  <action name="actionunload">
+   <property name="text">
+    <string>unload</string>
+   </property>
+  </action>
+  <action name="actionshow">
+   <property name="text">
+    <string>show/hide</string>
+   </property>
+  </action>
+  <action name="actionsettings">
+   <property name="text">
+    <string>settings</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
