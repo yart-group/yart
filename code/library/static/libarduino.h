@@ -3,6 +3,7 @@
 #define CONFIG_H
 
 #ifndef COMPILE_FOR_ARDUINO_UPLOAD
+  #warning COMPILE_FOR_ARDUINO_UPLOAD not set, using default
   #define COMPILE_FOR_ARDUINO_UPLOAD false
 #endif
 
@@ -628,9 +629,9 @@ class Kernel
     int command(const char * cmd);
 
     CommandTable _commandTable;
+    Motherboard * _motherboard;
   private:
     bool _enabled;
-    Motherboard * _motherboard;
     ProgramContainer _programs;
     ProgramContainer _drivers;
     ProgramContainer _startedPrograms;
