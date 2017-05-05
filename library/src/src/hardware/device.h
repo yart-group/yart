@@ -8,33 +8,86 @@ class Device : public Hardware
   public:
     class Meta;
     enum State { WORKING, NOT_WORKING };
-    enum Type  { Device, Gadget, InputGadget, OutputGadget, IOGadget, Component, Chip, Robot };
 
     Meta meta;
 
-    Device() : _power(false), _state(NOT_WORKING), meta(Meta::Device) {}
+    virtual bool init();
+    virtual int getState();
+    virtual bool isWorking();
 
-    virtual bool init() { if(isPowerEnabled() && !isWorking()) { _state = WORKING; return true; } return false; }
-    virtual int getState() { return _state; }
-    virtual bool isWorking() { return (_state == WORKING); }
+    virtual bool isPowerEnabled();
+    virtual void setPower(bool on);
+    virtual void setPowerOn();
+    virtual void setPowerOff();
 
-    virtual bool isPowerEnabled() { return _power; }
-    virtual void setPower(bool on) { if(on) setPowerOn(); else setPowerOff(); }
-    virtual void setPowerOn() { _power = true; }
-    virtual void setPowerOff() { _power = false; _state = NOT_WORKING; }
+    virtual bool isDebugEnabled();
+    virtual void setDebug(bool on);
+    virtual void setDebugOn();
+    virtual void setDebugOff();
 
-    virtual bool isDebugEnabled() { return debug.isEnabled(); }
-    virtual void setDebug(bool on) { if(on) setDebugOn(); else setDebugOff(); }
-    virtual void setDebugOn() { debug.setOn(); }
-    virtual void setDebugOff() { debug.setOff(); }
+    Device();
 
   protected:
-    int _state;
     DebugManager _debug;
 
   private:
     bool _power;
+    int _state;
 
 };
+
+//************************************************************************//
+
+inline Device::Device() :
+  _power(false),
+  _state(NOT_WORKING)
+{}
+
+inline bool Device::init(){
+  if(isPowerEnabled() && !isWorking())
+  {
+    _state = WORKING; return true;
+  }
+  return false;
+}
+inline int Device::getState(){
+  return _state;
+}
+inline bool Device::isWorking(){
+  return (_state == WORKING);
+}
+
+inline bool Device::isPowerEnabled(){
+  return _power;
+}
+inline void Device::setPower(bool on){
+  if(on)
+    setPowerOn();
+  else
+    setPowerOff();
+}
+inline void Device::setPowerOn(){
+  _power = true;
+}
+inline void Device::setPowerOff(){
+  _power = false;
+  _state = NOT_WORKING;
+}
+
+inline bool Device::isDebugEnabled(){
+  return _debug.isEnabled();
+}
+inline void Device::setDebug(bool on){
+  if(on)
+    setDebugOn();
+  else
+    setDebugOff();
+}
+inline void Device::setDebugOn(){
+  _debug.setOn();
+}
+inline void Device::setDebugOff(){
+  _debug.setOff();
+}
 
 #endif // DEVICE_H

@@ -4,10 +4,11 @@
 class Hardware
 {
   public:
-    Hardware();
-    virtual ~Hardware();
     static int getInstancesAmount();
     int getId();
+
+    Hardware();
+    virtual ~Hardware();
 
   private:
     static int _instances;
