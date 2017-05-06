@@ -26,7 +26,7 @@ bool Motor::reconnect()
 
 bool Motor::write(double data)
 {
-  if(! OutputGadget::write()) return false;
+  if(! OutputGadget::write(data)) return false;
 
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
   _motor->run(data);

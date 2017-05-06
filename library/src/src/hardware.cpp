@@ -12,13 +12,3 @@ Hardware::~Hardware()
   _instances--;
 }
 
-int Hardware::getInstancesAmount()
-{
-  return _instances;
-}
-
-int Hardware::getId()
-{
-  return _id;
-}
-

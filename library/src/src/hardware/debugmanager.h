@@ -2,6 +2,7 @@
 #define DEBUGMANAGER_H
 
 #include "logger.h"
+#include "../general/global.h"
 
 class DebugManager
 {

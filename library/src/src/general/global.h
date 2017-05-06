@@ -7,6 +7,8 @@
 
 #if COMPILE_FOR_ARDUINO_UPLOAD == false
   #include <cstring>
+  #include <vector>
+  using std::vector;
 #else
   #warning global.h can cause troubles (check it)
 

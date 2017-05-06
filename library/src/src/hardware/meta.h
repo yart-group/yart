@@ -1,3 +1,4 @@
+/* NOW INSIDE device.h
 #ifndef META_H
 #define META_H
 
@@ -19,8 +20,10 @@ class Device::Meta
   private:
     int _type;
 };
-
+*/
 //***********************************************************************//
+
+/*
 
 #include "../general/global.h"
 
@@ -47,3 +50,5 @@ inline Device::Meta::Meta(int type) :
 }
 
 #endif // META_H
+
+*/

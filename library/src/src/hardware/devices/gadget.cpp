@@ -5,7 +5,7 @@ bool Gadget::init()
   if( ! Device::init() ) return false;
 
   if( ! reconnect() )
-    _state = NOT_WORKING;
+    wreck(Device::NOT_WORKING);
 
   return isWorking();
 }

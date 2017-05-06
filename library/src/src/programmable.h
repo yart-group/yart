@@ -2,12 +2,11 @@
 #define PROGRAMMABLE_H
 
 #include "software.h"
-class Software;
 
 class Programmable
 {
   public:
-    bool uplaodSoftware(Software * software);
+    bool uploadSoftware(Software * software);
     bool removeSoftware();
     bool isProgrammed();
     Software * getSoftware();
@@ -23,6 +22,14 @@ class Programmable
 inline Programmable::Programmable() :
   _software(nullptr)
 {}
+
+inline bool Programmable::isProgrammed(){
+  return ! (_software == nullptr);
+}
+
+inline Software * Programmable::getSoftware(){
+  return _software;
+}
 
 
 #endif // PROGRAMMABLE_H

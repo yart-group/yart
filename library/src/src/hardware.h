@@ -15,4 +15,14 @@ class Hardware
     int _id;
 };
 
+//*************************************************//
+
+inline int Hardware::getInstancesAmount(){
+  return _instances;
+}
+
+inline int Hardware::getId(){
+  return _id;
+}
+
 #endif
