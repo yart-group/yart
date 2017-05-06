@@ -9,8 +9,10 @@ bool Pilot::init()
   _infraredSensor.init();
   if( _infraredSensor.isWorking() )
     return true;
-  else
+  else{
+    wreck(Device::NOT_WORKING);
     return false;
+  }
 #endif
   return true;
 }
@@ -27,24 +29,21 @@ void Pilot::setPowerOff()
 
 int Pilot::getCode()
 {
-  if(! isWorking()) return -1;
+  if(! isWorking()) return false;
 
 #if COMPILE_FOR_ARDUINO_UPLOAD == true
   _lastCode = _infraredSensor.read();
   _infraredSensor.loop();
   return _lastCode;
 #else
-  return 0;
+  _lastCode = true;
+  return _lastCode;
 #endif
 
 }
 int Pilot::getLast()
 {
-  if(! isWorking()) return -1;
+  if(! isWorking()) return false;
 
-#if COMPILE_FOR_ARDUINO_UPLOAD == true
   return _lastCode;
-#else
-  return 0;
-#endif
 }

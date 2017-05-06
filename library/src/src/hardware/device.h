@@ -30,6 +30,8 @@ class Device : public Hardware
   protected:
     DebugManager _debug;
 
+    virtual bool wreck(int state_error_code);
+
   private:
     bool _power;
     int _state;
@@ -49,6 +51,12 @@ inline bool Device::init(){
     _state = WORKING; return true;
   }
   return false;
+}
+inline bool Device::wreck(int state_error_code){
+  if(! isPowerEnabled()) return false;
+  if(state_error_code < 1 || state_error_code > NOT_WORKING) return false;
+  _state = state_error_code;
+  return true;
 }
 inline int Device::getState(){
   return _state;
