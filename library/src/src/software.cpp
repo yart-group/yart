@@ -4,13 +4,13 @@
 
 int Software::_instances = 0;
 
-Software::Software() :
+Software::Software(const char * name_) :
   _id(_instances),
-  _name(new char[name_size]),
+  name(new char[name_size]),
   _hardware(nullptr)
 {
   _instances++;
-  strcpy(_name, "unknown");
+  strcpy(name, name_);
 }
 
 Software::~Software()

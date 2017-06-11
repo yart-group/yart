@@ -7,7 +7,8 @@ class Kernel;
 class Program
 {
   public:
-    Program() : lastMsg(nullptr), meta(Meta::Program), _kernel(nullptr) {}
+    Program() : lastMsg(nullptr), meta(Meta::Program), _kernel(nullptr)
+      {}
 
     virtual int main(int argc = 0, char const * const * argv = 0) = 0;
     bool pair(Kernel * kernel);
@@ -15,7 +16,8 @@ class Program
     bool paired();
 
     char * lastMsg;
-    virtual int controller(int /*argc*/, char const * const * /*argv*/) { return -1; }
+    virtual int controller(int /*argc*/, char const * const * /*argv*/)
+      { return -1; }
     virtual bool install() { return false; }
     virtual bool uninstall() { return false; }
 

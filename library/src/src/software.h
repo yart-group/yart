@@ -11,20 +11,20 @@ class Software
 
   public:
     enum { name_size = 20 };
+    char * const name;
 
     static int getInstancesAmount();
     int getId();
 
     virtual int main(int argc, const char * argv[]) = 0;
 
-    Software();
+    Software(const char * name_ = "unknown");
     virtual ~Software();
 
   private:
     static int _instances;
     int _id;
 
-    char * const _name;
     Hardware * _hardware;
 };
 

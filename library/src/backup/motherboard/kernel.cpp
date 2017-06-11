@@ -101,8 +101,3 @@ int Kernel::command(const char *cmd)
 
   return _commandTable.exec(argc, argv);
 }
-
-
-
-
-
