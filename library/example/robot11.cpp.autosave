@@ -77,7 +77,7 @@ class MyLogger : public Logger
 };
 
 MyLogger x;
-x << "cos" << " tam";
+x << "cos" << " tam";   
 
 _debug << "debug message" << endl;
 _debug.add( new Logger); / del / get
