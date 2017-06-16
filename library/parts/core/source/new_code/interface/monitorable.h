@@ -12,34 +12,35 @@ class Monitorable
     {
       public:
         using valid_mark = bool;
-        using orphan_mark = const bool;
-        using id_type = counter_type;
+        using original_mark = bool;
+        using id_type = Monitorable::counter_type;
         using name_type = Monitorable::name_type;
-        enum : id_type { null = -1 };
-
-        Identifier(const Identifier & identifier) noexcept;
-        Identifier & operator =(const Identifier & identifier) noexcept;
-        bool operator ==(const Identifier & identifier) const noexcept;
-        bool operator !=(const Identifier & identifier) const noexcept;
-
-        Identifier() noexcept;
-
-        operator bool() const noexcept;
-
-        valid_mark isValid() const noexcept;
-        orphan_mark isOrphan() const noexcept;
 
         id_type getId() const noexcept;
+        name_type getName() const noexcept;
+
+        bool isValid() const noexcept;
+        bool isOriginal() const noexcept;
+
         bool isNull() const noexcept;
         void setNull() noexcept;
 
-        name_type getName() const noexcept;
-
+        Identifier() noexcept;
+        Identifier(const Identifier &) noexcept;
+        Identifier(const Identifier &&) = default;
+        Identifier & operator =(const Identifier &) noexcept;
+        Identifier & operator =(const Identifier &&) = default;
         ~Identifier() noexcept;
 
+        bool operator ==(const Identifier &) const noexcept;
+        bool operator !=(const Identifier &) const noexcept;
+        operator bool() const noexcept;
+
       private:
+        enum : id_type { null = -1 };
+
+        original_mark _original = false;
         std::shared_ptr<valid_mark> _valid = nullptr;
-        orphan_mark _orphan = true;
         id_type _id = null;
         name_type _name = "null";
 
@@ -63,14 +64,51 @@ class Monitorable
     const identifier_type _identifier;
 };
 
+
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=//
 // Monitorable::Identifier
 
+extern Monitorable::Identifier nullident;
+
+inline Monitorable::Identifier::id_type Monitorable::Identifier::getId() const noexcept
+{
+  return _id;
+}
+inline Monitorable::Identifier::name_type Monitorable::Identifier::getName() const noexcept
+{
+  return _name;
+}
+
+inline bool Monitorable::Identifier::isValid() const noexcept
+{
+  return *_valid;
+}
+inline bool Monitorable::Identifier::isOriginal() const noexcept
+{
+  return _original;
+}
+
+inline bool Monitorable::Identifier::isNull() const noexcept
+{
+  return _id == null;
+}
+inline void Monitorable::Identifier::setNull() noexcept
+{
+  *this = nullident;
+}
+
+inline Monitorable::Identifier::Identifier() noexcept {}
 inline Monitorable::Identifier::Identifier(const Identifier &identifier) noexcept :
+  _original { false },
   _valid { identifier._valid },
   _id { identifier._id },
   _name { identifier._name }
 {}
+// operator =(const Identifier &)
+inline Monitorable::Identifier::~Identifier() noexcept
+{
+  if( isOriginal() ) *_valid = false;
+}
 
 inline bool Monitorable::Identifier::operator ==(Monitorable::Identifier & identifier) const noexcept
 {
@@ -80,41 +118,14 @@ inline bool Monitorable::Identifier::operator !=(Monitorable::Identifier & ident
 {
   return !(*this == identifier);
 }
-
-inline Monitorable::Identifier::Identifier() noexcept {}
-
 inline Monitorable::Identifier::operator bool() const noexcept
 {
   return isValid();
 }
 
-inline Monitorable::Identifier::valid_mark Monitorable::Identifier::isValid() const noexcept
-{
-  return *_valid;
-}
-inline Monitorable::Identifier::orphan_mark Monitorable::Identifier::isOrphan() const noexcept
-{
-  return _orphan;
-}
+// Identifier(name_type)
 
-inline Monitorable::Identifier::id_type Monitorable::Identifier::getId() const noexcept
-{
-  return _id;
-}
-inline bool Monitorable::Identifier::isNull() const noexcept
-{
-  return _id == null;
-}
 
-inline Monitorable::Identifier::name_type Monitorable::Identifier::getName() const noexcept
-{
-  return _name;
-}
-
-inline Monitorable::Identifier::~Identifier() noexcept
-{
-  if(_orphan == false) *_valid = false;
-}
 
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=//
 // Monitorable

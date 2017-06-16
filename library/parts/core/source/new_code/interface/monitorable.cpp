@@ -15,35 +15,31 @@ Monitorable::counter_type Monitorable::getInstancesAmount() noexcept
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=//
 // Monitorable::Identifier
 
+Monitorable::Identifier nullident;
+
 Monitorable::Identifier & Monitorable::Identifier::operator =(const Identifier & identifier) noexcept
 {
+  if( isOriginal() )
+    *_valid = false;
+
+  _original = false;
   _valid = identifier._valid;
-  _orphan = true;
   _id = identifier._id;
   _name = identifier._name;
+
   return *this;
 }
 
 Monitorable::Identifier::Identifier(name_type name) :
+  _original { true },
   _valid { new valid_mark(true) },
-  _orphan { false },
   _id { Monitorable::_instances },
   _name { name }
 {
   if( _name == "null" ) {
-    _name = "unknown";
+    setNull();
     throw std::invalid_argument( "identifier name cannot be set to 'null'" );
   }
   ++Monitorable::_instances;
 }
 
-void Monitorable::Identifier::setNull() noexcept
-{
-  if(_orphan == false)
-    *_valid = false;
-
-  _valid = nullptr;
-  _orphan = true;
-  _id = null;
-  _name = "null";
-}
