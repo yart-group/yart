@@ -52,12 +52,20 @@ class Monitorable
     using name_type = std::string;
 
     static counter_type getInstancesAmount() noexcept;
-    identifier_type getIdentifier() const noexcept;
+    virtual identifier_type getIdentifier() const noexcept final; // force virtual just to make final?
 
-    virtual ~Monitorable() noexcept;
+    virtual bool operator ==(const Monitorable &) const noexcept; // not sure about being virtual
+    virtual bool operator !=(const Monitorable &) const noexcept;
 
-  protected:
-    Monitorable(name_type name);
+  protected: // ok?
+    Monitorable() = delete;
+    Monitorable(const Monitorable &) = default; // problem with const member?
+    Monitorable(const Monitorable &&) = default;
+    Monitorable & operator = (const Monitorable &) = default;
+    Monitorable & operator = (const Monitorable &&) = default;
+    virtual ~Monitorable() = 0;
+
+    explicit Monitorable(const name_type name);
 
   private:
     static counter_type _instances;
@@ -126,16 +134,25 @@ inline Monitorable::Identifier::operator bool() const noexcept
 // Identifier(name_type)
 
 
-
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=//
 // Monitorable
 
-inline Monitorable::Monitorable(name_type name) : _identifier { name } {}
+// getInstancesAmount()
 inline Monitorable::identifier_type Monitorable::getIdentifier() const noexcept
 {
   return _identifier;
 }
-inline Monitorable::~Monitorable() {}
+
+inline bool Monitorable::operator ==(const Monitorable & monitorable) const noexcept
+{
+  return _identifier == monitorable._identifier;
+}
+inline bool Monitorable::operator !=(const Monitorable & monitorable) const noexcept
+{
+  return !(*this == monitorable);
+}
+
+inline Monitorable::Monitorable(const name_type name) : _identifier { name } {}
 
 
 } // namespace
