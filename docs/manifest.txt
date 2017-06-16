@@ -1,0 +1,47 @@
+Manifest
+
+0) C++11 <-> C++17  +  STD
+
+1) document class
+    how it works
+    design pattern
+    purpouse: to instance/inherit/both ((end type/interface/type)(?))
+
+2) support auto-gen operations: 
+    ctor(_, &, &&) 
+    operator=(&, &&)
+    ~destructor()
+
+3) support basic operations: 
+    arythmetic(+,-,/,*, %, +,-, ++,--, =) 
+    logic(<,>,<=,>=,==,!=, &&,||, !) 
+    bitwise(<<,>>, &,|,~,^) 
+    fast-assign()
+    conversions( operator x(), ctor(x) )
+
+4) support const 
+    const variant of class (mutable, f() const, ...)
+    const on working types ( const f(const), const member, ...)
+    
+5) support instance / inheritance
+    support / block instancing: (friends, non-public, pure virtual, passkey, ...)
+    support / block inheritance: (virtual, final, override, ...) 
+
+6) support error handling
+    noexcept
+    throw() and catch()
+
+--
+
+class
+{
+    public
+    protected
+    private
+
+    types
+    fields
+    methods
+    auto-gens
+    operations
+}
