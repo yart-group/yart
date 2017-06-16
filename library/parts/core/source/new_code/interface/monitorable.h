@@ -1,6 +1,6 @@
 #ifndef MONITORABLE_H
 #define MONITORABLE_H
-
+#include "../general/global.h"
 namespace interface {
 #include <string>
 #include <memory>
@@ -54,8 +54,8 @@ class Monitorable
     static counter_type getInstancesAmount() noexcept;
     virtual identifier_type getIdentifier() const noexcept final; // force virtual just to make final?
 
-    virtual bool operator ==(const Monitorable &) const noexcept; // not sure about being virtual
-    virtual bool operator !=(const Monitorable &) const noexcept;
+    bool operator ==(const Monitorable &) const noexcept; // not sure about being virtual
+    bool operator !=(const Monitorable &) const noexcept;
 
   protected: // ok?
     Monitorable() = delete;
