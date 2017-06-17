@@ -1,5 +1,6 @@
 #ifndef DEBUGGABLE_H
 #define DEBUGGABLE_H
+#include "../general/global.h"
 namespace  interface {
 #include <vector>
 #include <memory>
@@ -17,15 +18,29 @@ class Debuggable
         {
           public:
             virtual Logger & operator <<(const Output ouput) noexcept = 0;
+
+            DebugManager<Output> operator +(const Logger<Output> &);
+
+          protected:
+            Logger() = default;
+            Logger(const Logger &) = default;
+            Logger(const Logger &&) = default;
+            Logger & operator =(const Logger &) = default;
+            Logger & operator =(const Logger &&) = default;
             virtual ~Logger() = 0;
         };
 
-        std::vector<std::shared_ptr<Logger<OutputType>>> loggers;
+        std::vector<std::shared_ptr<Logger<OutputType>>> loggers; // push_back or something can throw()?
 
-        DebugManager & operator <<(OutputType output);
+        template<typename Any>
+        DebugManager & operator <<(const Any output) const noexcept;
 
-        template<typename T>
-        DebugManager & operator <<(T output);
+        DebugManager & operator +=(const Logger &); // chain ?
+        //DebugManager & operator -=(const Logger &);
+        //DebugManager & operator +=(const DebugManager &);
+        //DebugManager & operator -=(const DebugManager &);
+
+        // == and != and ((bool)(?))
 
       private:
         DebugManager() = default;
@@ -34,10 +49,14 @@ class Debuggable
         DebugManager & operator =(const DebugManager &) = default;
         DebugManager & operator =(const DebugManager &&) = default;
         ~DebugManager() = default;
+
+        // [not explcit?] DebugManager( const std::tuple< Logger > ); // loggers set
     };
 
   protected:
-    DebugManager<std::string> _debug;
+    using stream_data_type = std::string;
+
+    DebugManager<stream_data_type> _debug;
 
     Debuggable() = default;
     Debuggable(const Debuggable & debuggable) = default;
@@ -45,7 +64,26 @@ class Debuggable
 };
 
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=//
-//
+// Debuggable::DebugManager
+
+Debuggable::DebugManager::Logger::~Logger() {}
+
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=//
+// Debuggable::DebugManager
+
+template<typename Any> /*inline*/
+Debuggable::DebugManager & Debuggable::DebugManager::operator <<(const interface::Debuggable::DebugManager::Any output) const noexcept // until noexcept on logger<<
+{
+  for(auto os : loggers)
+    *os << output;
+  return *this;
+}
+
+Debuggable::DebugManager & Debuggable::DebugManager::operator +=(const Debuggable::DebugManager::Logger & logger)
+{
+  loggers.push_back( std::shared_ptr<Logger<OutputType>> { &logger } ); // what if shared_ptr deletes logger?
+  return *this;
+}
 
 
 } // namespace
